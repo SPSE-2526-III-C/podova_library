@@ -1,6 +1,6 @@
 # Library
 
-##Inteligentná webová aplikácia pre správu kníh, čitateľský denník a personalizované odporúčania 
+## Inteligentná webová aplikácia pre správu kníh, čitateľský denník a personalizované odporúčania 
 
 ### Cieľ / produkt: 
 • webová aplikácia na správu kníh a čitateľského denníka 
