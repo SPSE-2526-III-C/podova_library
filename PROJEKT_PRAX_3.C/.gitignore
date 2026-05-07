@@ -1,0 +1,43 @@
+// ...existing code...
+# Virtual envs
+.venv/
+venv/
+ENV/
+env/
+
+# Python cache / bytecode
+__pycache__/
+*.py[cod]
+*.pyc
+
+# SQLite DB
+*.db
+korculovanie.db
+
+# Flask / secrets
+.env
+instance/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+
+# Logs / coverage
+*.log
+.coverage
+.pytest_cache/
+
+# Temporary / backups
+*~
+*.bak
+*.swp
+
+# Optional: ignore generated images (if recreated at runtime)
+static/img/generated_image*

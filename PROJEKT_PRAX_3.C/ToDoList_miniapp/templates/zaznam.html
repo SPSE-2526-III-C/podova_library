@@ -1,0 +1,41 @@
+{% extends "_base.html" %}
+
+{% block title %}Záznamy{% endblock %}
+
+{% block content %}
+<h2 class="text-center mb-4 text-dark">Záznamy korčuľovania</h2>
+
+{% if korc %}
+<div class="container px-4 px-lg-5">
+    <div class="table-responsive">
+        <table class="table table-bordered align-middle rounded-table overflow-hidden">
+            <thead>
+                <tr class="table-danger">
+                    <th class="table-light">ID</th>
+                    <th >Dĺžka jazdy</th>
+                    <th class="table-light">Hodnotenie</th>
+                    <th >Terén</th>
+                    <th class="table-light">Počasie</th>
+                    <th >Popis</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for i in korc %}
+                <tr class="table-danger">
+                    <td>{{ i.id }}</td>
+                    <td class="table-light">{{ i.nazov }}</td>
+                    <td>{{ i.ohodnot }}</td>
+                    <td class="table-light">{{ i.teren }}</td>
+                    <td>{{ i.pocasie }}</td>
+                    <td class="table-light">{{ i.popis }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+<p class="text-center text-muted font-monospace">Databáza je prázdna.</p>
+{% endif %}
+{% endblock %}
+

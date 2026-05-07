@@ -1,0 +1,39 @@
+{% extends '_base.html' %}
+
+{% block title %} Pridaj jazdu {% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Pridaj jazdu</h2>
+    <form method="POST" class="card p-4 shadow-sm">
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+            {{ form.nazov.label(class='form-label') }}
+            {{ form.nazov(class='form-control') }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.ohodnot.label(class='form-label') }}
+            {{ form.ohodnot(class='form-select') }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.teren.label(class='form-label') }}
+            {{ form.teren(class='form-select') }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.pocasie.label(class='form-label') }}
+            {{ form.pocasie(class='form-select') }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.popis.label(class='form-label') }}
+            {{ form.popis(class='form-control', rows='3') }}
+        </div>
+
+        {{ form.submit(class='btn btn-danger') }}
+    </form>
+</div>
+{% endblock %}
