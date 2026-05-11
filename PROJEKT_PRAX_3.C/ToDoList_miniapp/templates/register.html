@@ -47,47 +47,51 @@
                 </form>
             </div>
         </nav>
-        <h1 class="text-center fs-1 fw-bolder" style="margin-top: 30px;">Contact Us Page</h1>
+        <h1 class="text-center fs-1 fw-bolder" style="margin-top: 30px;">Register Page</h1>
         
         <div class="blur-area">
-            <div class="card mx-auto mb-3 glass-card rounded-10  " style="width: 45rem; margin-top: 80px; height: 21rem; border: none;">
+            <div class="card mx-auto mb-3 glass-card rounded-10  " style="width: 1000px;height: 500px; margin-top: 80px; border: none;">
                 <div class="row g-0">
 
         
-            <div class="col-md-6 p-3">
-                <form>
-
-                    <div class="mb-3 font-monospace">
-                        <label >Full Name</label>
-                        <input type="text" class="form-control-plaintext border-bottom border-dark" placeholder="">
-                    </div>
-
-                    <div class="mb-3 font-monospace">
-                        <label>Email</label>
-                        <input type="text" class="form-control-plaintext border-bottom border-dark" placeholder="">
-                    </div>
-
-                    <div class="mb-3 font-monospace">
-                        <label>Message</label>
-                        <textarea class="form-control-plaintext border-bottom border-dark"></textarea>
-                    </div>
-
-                    <button class="btn btn-dark font-monospace" style="margin-left: 0px; width: 18rem;border-radius: 20px;">Contact Us</button>
-
-                </form>
-            </div>
+            
 
             
-            <div class="col-md-6 p-3" style="">
-                <h5 class="card-title" style="padding-top: 10px;">Contact:</h5>
-                <p class="card-text">
-                    @bibipod369
-                </p>
-                <h5 class="card-title" style="padding-top: 40px;">Phone:</h5>
-                <p class="card-text">
-                    +421 123 456 789
-                </p>
-                <div class="container" style="padding-top: 40px;">
+            <div class="col-md-6 p-3">
+                <h1 class="card-title font-monospace" style="padding-top: 70px;padding-left: 30px;">Welcome!</h1>
+                <p class="card-text font-monospace" style="padding-top: 60px; padding-left: 30px;">
+                    Welcome to our Library application! This is your personal space to organize and manage your books efficiently. Whether you have a busy day or just want to keep track of your daily reading activity, our app is here to help you stay on top of things. Create, edit, and prioritize your books with ease, and enjoy a more beautiful day!</p>
+                <a class="btn btn-dark font-monospace" style=" width: 150px;border-radius: 20px; margin-top: 30px; margin-left: 30px;" href="{{ url_for('contact') }}">Contact Us</a>
+                
+
+            </div>
+
+            <div class="card col-md-6 p-3 glass-card" style="border: 30px; width: 350px; margin-top: 50px;; margin-left: 60px;margin-bottom: 20px; border: none;">
+                <form>
+                    <div class="input-group mb-4 font-monospace" style=" margin-top: 10px; width: 300px;">
+                        
+                        <label>Username</label>
+                        <input type="text" class="form-control-plaintext border-bottom border-dark" placeholder="hubble_bubble">
+                    </div>
+                    <div class="input-group mb-4 font-monospace" style=" margin-top: 0px; width: 300px;">
+                        
+                        <label>Email</label>
+                        <input type="text" class="form-control-plaintext border-bottom border-dark" placeholder="bibi@gmail.com">
+                    </div>
+
+
+                    <div class="mb-2 font-monospace" style=" margin-top: px; width: 300px;">
+                        
+                        <label>Password</label>
+                        <input type="text" class="form-control-plaintext border-bottom border-dark" placeholder="hi123">
+                    </div>
+
+
+                    <button class="btn btn-dark font-monospace" style=" width: 300px;border-radius: 20px; margin-top: 30px;">Sign Up</button>
+                      
+
+                </form>
+                <div class="container" style="padding-top: 20px; text-align: center;">
                     <a href="https://www.instagram.com/bibi_poda_369/?__pwa=1" target="_blank" rel="noopener noreferrer" style="color: black;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
                             <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
@@ -101,7 +105,6 @@
                     </svg>
                     
                 </div>
-
             </div>
 
         </div>
