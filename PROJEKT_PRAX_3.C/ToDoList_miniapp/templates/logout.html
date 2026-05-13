@@ -51,38 +51,24 @@
                 </form>
             </div>
         </nav>
-        <h1 class="text-center fs-1 fw-bolder" style="margin-top: 30px;">Login Page</h1>
+        <h1 class="text-center fs-1 fw-bolder" style="margin-top: 30px;">Logout Page</h1>
         
         <div class="blur-area">
-            <div class="card mx-auto mb-3 glass-card rounded-10 " style="width: 29rem;height: 25rem; margin-top: 80px; border: none;">
+            <div class="card mx-auto mb-3 glass-card rounded-10 " style="width: 40rem;height: 15rem; margin-top: 150px; border: none;">
                 <div class="row g-0">
 
         
             <div class="col-md- p-3 d-flex flex-column justify-content-center align-items-center">
-                <form action="/login" method="post">
+                <form action="/logout" method="post">
 
-                    <div class="input-group mb-4 font-monospace" style=" margin-top: 30px;">
+                    
+                    <h2 class="font-monospace" style="margin-top: 40px;">Are you shure you want to logout?</h2>
+                    
+                    <button class="btn btn-danger font-monospace" style=" width: 350px;border-radius: 20px; margin-top: 50px; text-align: center;margin-left: 110px;">Sign out</button>
                         
-                        <label>Email</label>
-                        <input type="text" name="email" class="form-control-plaintext border-bottom border-dark" placeholder="bibi@gmail.com">
-                    </div>
-
-
-                    <div class="mb-3 font-monospace" style=" margin-top: 10px; width: 350px;">
                         
-                        <label>Password</label>
-                        <input type="password" name="password" class="form-control-plaintext border-bottom border-dark" placeholder="hi123">
-                    </div>
-
-
-                    <button class="btn btn-dark font-monospace" style=" width: 350px;border-radius: 20px; margin-top: 50px;">Login</button>
-                      
-
                 </form>
-              <div class="navbar-text" style="margin-top: 20px;">
-                <span class="font-monospace">Not a member?</span>
-                <a class="btn font-monospace text-warning-emphasis p-0 ms-1 font-monospace" href="{{ url_for('register') }}" style="vertical-align: baseline; ">Sign up!</a>
-              </div>
+                
             </div>
             </div>
 

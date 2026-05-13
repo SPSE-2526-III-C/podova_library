@@ -29,10 +29,12 @@
                 backdrop-filter: none !important;
                 -webkit-backdrop-filter: none !important;
             }
+            .flash { padding: 10px; margin: 10px 0; border-radius: 5px; }
+            .success { background-color: #d4edda; color: #155724; }
+            .error { background-color: #f8d7da; color: #721c24;  width: 450px; border-radius: 10px; text-align: center; margin: 20px auto; }
         </style>
     
     </head>
-
     <body style="background-image: url('{{ url_for('static', filename='img/generated_image.jpg') }}'); ">
         <nav class="navbar bg-body-tertiary" style="background-color: #eacaac !important;">
             <div class="container-fluid">
@@ -67,24 +69,25 @@
             </div>
 
             <div class="card col-md-6 p-3 glass-card" style="border: 30px; width: 350px; margin-top: 50px;; margin-left: 60px;margin-bottom: 20px; border: none;">
-                <form>
+                <form action="/register" method="post" id="login-form" class="form">
                     <div class="input-group mb-4 font-monospace" style=" margin-top: 10px; width: 300px;">
                         
                         <label>Username</label>
-                        <input type="text" class="form-control-plaintext border-bottom border-dark" placeholder="hubble_bubble">
+                        <input type="text" name="username" class="form-control-plaintext border-bottom border-dark" placeholder="hubble_bubble">
                     </div>
                     <div class="input-group mb-4 font-monospace" style=" margin-top: 0px; width: 300px;">
                         
                         <label>Email</label>
-                        <input type="text" class="form-control-plaintext border-bottom border-dark" placeholder="bibi@gmail.com">
+                        <input type="text" name="email" class="form-control-plaintext border-bottom border-dark" placeholder="bibi@gmail.com">
                     </div>
 
 
                     <div class="mb-2 font-monospace" style=" margin-top: px; width: 300px;">
                         
                         <label>Password</label>
-                        <input type="text" class="form-control-plaintext border-bottom border-dark" placeholder="hi123">
+                        <input type="text" name="password" class="form-control-plaintext border-bottom border-dark" placeholder="hi123">
                     </div>
+                    
 
 
                     <button class="btn btn-dark font-monospace" style=" width: 300px;border-radius: 20px; margin-top: 30px;">Sign Up</button>
@@ -106,9 +109,18 @@
                     
                 </div>
             </div>
-
+                                
         </div>
         </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul>
+                    {% for category, message in messages %}
+                        <p class="{{ category }} error">{{ message }}</p>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
     </div>
     {% block content %}{% endblock %}
     <footer class="py-4 mt-6 text-center fixed-bottom" style="background-color: #eacaac;">

@@ -1,22 +1,34 @@
-from flask import Flask, render_template, redirect, url_for, request, flash, redirect
-from forms import KorculovanieForm
-from models import db, Pridaj
+from flask import Flask, render_template, redirect, url_for, request, flash, session
 import os, smtplib
 from email.message import EmailMessage
+from werkzeug.security import generate_password_hash, check_password_hash
+
+# 1. IMPORTUJ DB A MODELY (Pridaj aj 'Pridaj', ak ho tam máš)
+from extensions import db
+from models import User
+from forms import KorculovanieForm
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'sigma67'
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + os.path.join(BASE_DIR, "korculovanie.db")
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///user.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = "nejake_tajne_heslo"
+app.secret_key = "Bubble"
+db.init_app(app)
+app
 
-# Konfigurácia e-mailu (Príklad pre Gmail)
+# E-mail
 EMAIL_ADRESA = "booksofyourdreams123@gmail.com"
 EMAIL_HESLO = "olpq qdxc rics ovsu"
 
-db.init_app(app)
+if __name__ == '__main__':
+    app.app_context().push()
+    app.debug = True
+    db.create_all()
+    app.secret_key="Bubble"
+    app.run(host='127.0.0.1', port=5000)
+
 
 with app.app_context():
     db.create_all()
@@ -24,27 +36,6 @@ with app.app_context():
 @app.route('/') 
 def home_page():
     return render_template('index.html')
-
-@app.route('/pridaj_ulohu', methods=['GET', 'POST'])
-def pridaj_ulohu():
-    form = KorculovanieForm()
-    if form.validate_on_submit():
-        novy_zaznam = Pridaj(
-            nazov=form.nazov.data,
-            ohodnot=form.ohodnot.data,
-            teren=form.teren.data,
-            pocasie=form.pocasie.data,
-            popis=form.popis.data
-        )
-        db.session.add(novy_zaznam)
-        db.session.commit()
-        return redirect(url_for('pridaj_ulohu'))
-    return render_template('pridaj_ulohu.html', form=form)
-
-@app.route('/zaznam')
-def zaznam():
-    korc = Pridaj.query.order_by(Pridaj.datum_pridania.desc()).all()
-    return render_template('zaznam.html', korc=korc)
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
@@ -82,15 +73,74 @@ def base():
 def books():
     return render_template('books.html')
 
-@app.route('/progress')
-def progress():
-    return render_template('progress.html')
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        query_user = User.query.filter_by(email=email).first()
+
+        if query_user and check_password_hash(query_user.password, password):
+            session['logged_in'] = True
+            session['user_id'] = query_user.id
+            session['username'] = query_user.username 
+            
+            
+            return redirect(url_for('base'))
+        
+        else:
+            
+            flash("Neplatný e-mail alebo heslo. Skúste to znovu.", "danger")
+            return redirect(url_for('login'))
+
+
     return render_template('login.html')
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+
+        existing_user = User.query.filter_by(email=email).first()
+        existing_username = User.query.filter_by(username=username).first()
+        if existing_user or existing_username:
+            flash("E-mail nebo uživatelské jméno už existuje. Zvolte jiné.", "danger")
+            return redirect(url_for('register'))
+        else:
+            new_user = User(
+                username = request.form['username'],
+                email = request.form['email'],
+                password=generate_password_hash(request.form['password'])
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            flash("Registrace úspěšná! Můžete se nyní přihlásit.", "success")
+            return redirect(url_for('login'))
+        
     return render_template('register.html')
 
+
+@app.route('/logout', methods=['GET', 'POST'])
+
+def logout():
+    if request.method == 'POST':
+        if 'logged_in' in session:
+            session.clear()
+            
+            return redirect(url_for('base'))
+        else:
+            flash("Neplatný požadavek.", "success")
+            return redirect(url_for('login'))
+        
+    elif 'logged_in' not in session:
+        flash("Neplatný požadavek.", "success")
+        return redirect(url_for('login'))
+
+ 
+
+    return render_template('logout.html')
+    
