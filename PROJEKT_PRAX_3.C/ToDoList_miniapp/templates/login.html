@@ -31,7 +31,7 @@
             }
 
             .flash { padding: 10px; margin: 10px 0; border-radius: 5px; }
-            .success { background-color: #d4edda; color: #155724; }
+            .success { background-color: #d4edda; color: #155724; width: 350px; border-radius: 10px; text-align: center; margin: 20px auto; }
             .error { background-color: #f8d7da; color: #721c24; width: 350px; border-radius: 10px; text-align: center; margin: 20px auto; }
         </style>
     
@@ -93,7 +93,7 @@
         {% if messages %}
             <ul>
                 {% for category, message in messages %}
-                    <p class="{{ category }} text-center error">{{ message }}</p>
+                    <p class="{{ category }} font-monospace">{{ message }}</p>
                 {% endfor %}
             </ul>
         {% endif %}

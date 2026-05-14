@@ -58,10 +58,10 @@ def contact():
             with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
                 smtp.login(EMAIL_ADRESA, EMAIL_HESLO)
                 smtp.send_message(msg)
-            flash("Správa bola úspešne odoslaná!", "success")
+            flash("Message was sent successfully!", "success")
         except Exception as e:
-            flash(f"Chyba pri odosielaní: {e}", "danger")
-            
+            flash(f"Error sending message: {e}", "error")
+
         return redirect(url_for('contact'))
     return render_template('contact.html')
 
@@ -81,20 +81,26 @@ def login():
         password = request.form.get('password')
 
         query_user = User.query.filter_by(email=email).first()
+        
 
-        if query_user and check_password_hash(query_user.password, password):
+        if not email and not password:
+            flash("Please fill in all fields", "error")
+            return redirect(url_for('login'))
+        
+        elif query_user and check_password_hash(query_user.password, password):
             session['logged_in'] = True
-            session['user_id'] = query_user.id
-            session['username'] = query_user.username 
-            
-            
             return redirect(url_for('base'))
         
         else:
             
-            flash("Neplatný e-mail alebo heslo. Skúste to znovu.", "danger")
+            flash("Wrong email or password. Please try again", "error")
             return redirect(url_for('login'))
-
+    
+    
+    
+    elif 'logged_in' in session:
+        flash("You are logged in. Log out first to log in with a different account.", "error")
+        return redirect(url_for('logout'))
 
     return render_template('login.html')
 
@@ -108,7 +114,7 @@ def register():
         existing_user = User.query.filter_by(email=email).first()
         existing_username = User.query.filter_by(username=username).first()
         if existing_user or existing_username:
-            flash("E-mail nebo uživatelské jméno už existuje. Zvolte jiné.", "danger")
+            flash("Email or username already exists. Please choose another", "error")
             return redirect(url_for('register'))
         else:
             new_user = User(
@@ -118,8 +124,8 @@ def register():
             )
             db.session.add(new_user)
             db.session.commit()
-            flash("Registrace úspěšná! Můžete se nyní přihlásit.", "success")
-            return redirect(url_for('login'))
+            
+            return redirect(url_for('base'))
         
     return render_template('register.html')
 
@@ -133,11 +139,11 @@ def logout():
             
             return redirect(url_for('base'))
         else:
-            flash("Neplatný požadavek.", "success")
+            flash("Invalid request. Please log in first", "error")
             return redirect(url_for('login'))
         
     elif 'logged_in' not in session:
-        flash("Neplatný požadavek.", "success")
+        flash("Invalid request. Please log in first", "error")
         return redirect(url_for('login'))
 
  
