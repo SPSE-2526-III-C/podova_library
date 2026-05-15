@@ -1,7 +1,8 @@
-from flask import Flask, render_template, redirect, url_for, request, flash, session
+from flask import Flask, render_template, redirect, url_for, request, flash, session, request
 import os, smtplib
 from email.message import EmailMessage
 from werkzeug.security import generate_password_hash, check_password_hash
+import requests
 
 # 1. IMPORTUJ DB A MODELY (Pridaj aj 'Pridaj', ak ho tam máš)
 from extensions import db
@@ -65,9 +66,28 @@ def contact():
         return redirect(url_for('contact'))
     return render_template('contact.html')
 
-@app.route('/')
+@app.route('/_base')
 def base():
-    return render_template('base.html')
+    vysledky_knih = [] # Tu budeme ukladať to, čo nám API pošle
+    
+    if request.method == 'POST':
+        hladane_slovo = request.form.get('input_knihy')
+        
+        # TOTO JE TO PREPOJENIE:
+        # Pripravíme si adresu pre Google API s naším slovom
+        url = f"https://www.googleapis.com/books/v1/volumes?q={hladane_slovo}"
+        
+        # Python teraz "pôjde" na túto adresu a stiahne dáta
+        odpoved = requests.get(url)
+        
+        
+        if odpoved.status_code == 200:
+            data = odpoved.json() # Premeníme surový text na Python zoznam
+            vysledky_knih = data.get('items', []) # Vytiahneme zoznam kníh
+            return render_template('base.html', knihy=vysledky_knih)
+    return render_template('base.html', knihy=vysledky_knih)
+
+
 
 @app.route('/books')
 def books():

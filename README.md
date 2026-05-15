@@ -9,7 +9,7 @@ poznámky
 • aplikácia bude obsahovať odporúčací systém a štatistiky čítania 
 ### Hlavné funkcionality – jadro projektu: 
 • registrácia a prihlásenie používateľa 
-• pridávanie kníh (manuálne alebo cez API) 
+• pridane knihy (manuálne alebo cez API) 
 • evidencia kníh (prečítané / čítam / plánujem čítať) 
 • hodnotenie kníh (1–5) 
 • poznámky a recenzie ku knihám 
