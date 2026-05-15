@@ -10,39 +10,65 @@
     
         <style>
             
+            /* Toto rozmaže pozadie iba pod kartou, navbar zostane nedotknutý */
+            .glass-card {
+                /* rgba(255, 255, 255, 0.4) je polopriehľadná biela */
+                background-color: rgba(255, 255, 255, 0.4) !important; 
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+            }
+
+            /* Fixácia pozadia, aby sa pri skrolovaní nehýbalo */
+            body {
+                background-attachment: fixed;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+            
+            /* Zabezpečíme, aby navbar mal svoju pevnú farbu a nebol ovplyvnený */
+            .navbar {
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+            }
+
 
         </style>
     
     </head>
-<body>
-    <div class="col d-flex justify-content-center">
-        <div class="card h-100 bg-transparent" style="max-width: 400px; border: none;">
+<body style="background-image: url('{{ url_for('static', filename='img/generated_image.jpg') }}'); ">
+    <nav class="navbar bg-body-tertiary" style="background-color: #eacaac !important;">
+        <div class="container-fluid">
+            <a href="{{ url_for('login') }}">
+                <img src="{{ url_for('static', filename='img/stiahnuť.png') }}" alt="Ikona knihy" style="width: 50px;">
+            </a>
+        </div>
+    </nav>
+    <h5 class=" text-center fs-1 fw-bolder" style="margin-top: 5rem;" >{{kniha.volumeInfo.title if kniha.volumeInfo.title else "books is unvalable"}}</h5>
+    <div style="display: flex; justify-content: center; align-items: center; min-height: 100vh; width: 100%; margin-top: -15rem;" >
+
+        <div class="card mb-3 glass-card" style="width: 600px;height: 400px; border: none; font-family: 'Pinyon Script', cursive;">
             <div class="row g-0">
                 <div class="col-md-4">
                     {% if kniha.volumeInfo.imageLinks and kniha.volumeInfo.imageLinks.thumbnail %}
-                        <img src="{{ kniha.volumeInfo.imageLinks.thumbnail }}" class="img-fluid rounded-start shadow-sm" alt="Cover">
+                        <img src="{{kniha.volumeInfo.imageLinks.thumbnail}}" class="img-fluid rounded-start" alt="..." style="height: 400px; width: 600px;">
                     {% else %}
-                        <img src="https://via.placeholder.com/150x220?text=Bez+obrázka" class="img-fluid rounded-start" alt="No image">
-                    {% endif %}
+                    <img src="https://via.placeholder.com/150x220?text=Bez+obrázka" class="img-fluid rounded-start" alt="No image">
+                    {% endif %} 
                 </div>
                 <div class="col-md-8">
-                    <div class="card-body py-0">
-                        <h5 class="card-title ">
-                            
-                            {{ kniha.volumeInfo.title if kniha.volumeInfo.title else 'Názov nie je k dispozícii' }}
-                                        
-                        </h5>
-                        <h6 class="card-title">
-                            {{ kniha.volumeInfo.authors if kniha.volumeInfo.authors else 'Neznámy autor' }}
-                        </h6>
-                        <p class="card-text " style="font-size: 0.9rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;">
-                            {{ kniha.volumeInfo.description if kniha.volumeInfo.description else 'Popis nie je k dispozícii.' }}
-                        </p>
+                    <div class="card-body">
+                        <p class="card-text" style="margin-top: 20px; color: rgb(147, 71, 13);">Author:</p>
+                        <h4 class="card-title" style="margin-left: 30px; margin-top: -10px;">{{ kniha.volumeInfo.authors if kniha.volumeInfo.authors else "Neznámy autor" }}</h4>
+                        <p class="card-text" style="margin-top: 100px;color: rgb(147, 71, 13); ">Description:</p>
+                        <h6 class="card-text text-truncate" style=" margin-left: 30px; margin-top: -10px;">{{ kniha.volumeInfo.description if kniha.volumeInfo.description }}</h6>
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
 
     </div>
+
+    
 </body>
 </html>

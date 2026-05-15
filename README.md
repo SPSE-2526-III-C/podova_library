@@ -17,16 +17,13 @@ poznámky
 • sledovanie progresu čítania (napr. počet strán / %) 
 ### Doplňujúce funkcionality: 
 • odporúčanie kníh na základe hodnotení a preferencií používateľa 
-• štatistiky čítania (počet kníh za mesiac/rok, žánre) 
 • integrácia externého API (napr. Google Books) 
 • automatické načítanie údajov o knihe (obálka, popis, autor) 
 • nastavenie čitateľských cieľov (napr. počet kníh za rok) 
 • responzívny dizajn (mobil, tablet) 
-• export čitateľského denníka (napr. PDF) 
 ### Technológie: 
 • frontend: HTML, CSS, JavaScript (React / Vue) 
 • backend: Python (Flask / Django) alebo Node.js 
 • databáza: PostgreSQL / SQLite 
-• REST API 
 • externé API (Google Books) 
 • základný odporúčací algoritmus 
