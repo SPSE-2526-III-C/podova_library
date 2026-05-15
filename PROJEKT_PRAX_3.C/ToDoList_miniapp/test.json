@@ -1,0 +1,94 @@
+{
+  "items": [
+    {
+      "id": "book_001",
+      "volumeInfo": {
+        "title": "Harry Potter a Kameň mudrcov",
+        "authors": "J.K. Rowling",
+        "description": "Prvý rok na Rokforte.",
+        "imageLinks": { "thumbnail": "https://books.google.com/books/content?id=wrOQLV6xB-wC&printsec=frontcover&img=1&zoom=1" }
+      }
+    },
+    {
+      "id": "book_002",
+      "volumeInfo": {
+        "title": "Pán Prsteňov: Spoločenstvo Prsteňa",
+        "authors": "J.R.R. Tolkien",
+        "description": "Cesta Froda do Mordoru začína.",
+        "imageLinks": { "thumbnail": "https://via.placeholder.com/150x220?text=Pan+Prstenov" }
+      }
+    },
+    {
+      "id": "book_003",
+      "volumeInfo": {
+        "title": "Malý princ",
+        "authors": "Antoine de Saint-Exupéry",
+        "description": "Príbeh o priateľstve a dôležitých veciach.",
+        "imageLinks": { "thumbnail": "https://via.placeholder.com/150x220?text=Maly+Princ" }
+      }
+    },
+    {
+      "id": "book_004",
+      "volumeInfo": {
+        "title": "Zaklínač: Posledné želanie",
+        "authors": "Andrzej Sapkowski",
+        "description": "Geralt z Rivie a jeho dobrodružstvá.",
+        "imageLinks": { "thumbnail": "https://via.placeholder.com/150x220?text=Zaklinac" }
+      }
+    },
+    {
+      "id": "book_005",
+      "volumeInfo": {
+        "title": "1984",
+        "authors": "George Orwell",
+        "description": "Dystopický román o Veľkom bratovi.",
+        "imageLinks": { "thumbnail": "https://via.placeholder.com/150x220?text=1984" }
+      }
+    },
+    {
+      "id": "book_006",
+      "volumeInfo": {
+        "title": "Duna",
+        "authors": "Frank Herbert",
+        "description": "Epická sci-fi z púštnej planéty.",
+        "imageLinks": { "thumbnail": "https://via.placeholder.com/150x220?text=Duna" }
+      }
+    },
+    {
+      "id": "book_007",
+      "volumeInfo": {
+        "title": "Hra o tróny",
+        "authors": "George R.R. Martin",
+        "description": "Zima prichádza do Západozemia.",
+        "imageLinks": { "thumbnail": "https://via.placeholder.com/150x220?text=Game+of+Thrones" }
+      }
+    },
+    {
+      "id": "book_008",
+      "volumeInfo": {
+        "title": "Hobit",
+        "authors": "J.R.R. Tolkien",
+        "description": "Bilbo Bublík a jeho neočakávaná cesta.",
+        "imageLinks": { "thumbnail": "https://via.placeholder.com/150x220?text=Hobit" }
+      }
+    },
+    {
+      "id": "book_009",
+      "volumeInfo": {
+        "title": "Kód Enigmy",
+        "authors": "Andrew Hodges",
+        "description": "Životopis Alana Turinga.",
+        "imageLinks": { "thumbnail": "https://via.placeholder.com/150x220?text=Enigma" }
+      }
+    },
+    {
+      "id": "book_010",
+      "volumeInfo": {
+        "title": "Meno ruže",
+        "authors": "Umberto Eco",
+        "description": "Detektívny príbeh zo stredovekého kláštora.",
+        "imageLinks": { "thumbnail": "https://via.placeholder.com/150x220?text=Meno+Ruze" }
+      }
+    }
+  ]
+}

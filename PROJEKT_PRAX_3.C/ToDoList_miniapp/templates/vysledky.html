@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}books_ofyourdreams{% endblock %}</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    
+        <style>
+            
+
+        </style>
+    
+    </head>
+<body style="background-color: #fbf0de;">
+    <nav class="navbar bg-body-tertiary" style="background-color: #eacaac !important;">
+            <div class="container-fluid">
+                <a href="{{ url_for('login') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book-half text-dark" viewBox="0 0 16 16"> 
+                        <path d="M8.5 2.687c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/> 
+                    </svg>
+                </a>
+                <form class="d-flex" role="search" method="post" action="/hladaj">
+                    <input class="form-control me-2 border border-dark focus-ring focus-ring-dark" style="background-color: #e2bd9bea !important;" type="text" placeholder="Search" aria-label="Search" name="kniha"/>
+                    <button class="btn btn-outline-dark" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+    <h1 class="font-monospace" style="text-align: center; margin-top: 4rem;">Search Results:</h1>
+    <div class="container" style="margin-top: 10rem;">
+        <div class="row row-cols-1 row-cols-md-2 g-3" >
+            {% for kniha in knihy %}
+                <div class="col d-flex justify-content-center">
+                    <div class="card h-100 bg-transparent" style="max-width: 400px; border: none;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                {% if kniha.volumeInfo.imageLinks and kniha.volumeInfo.imageLinks.thumbnail %}
+                                    <img src="{{ kniha.volumeInfo.imageLinks.thumbnail }}" class="img-fluid rounded-start shadow-sm" alt="Cover">
+                                {% else %}
+                                    <img src="https://via.placeholder.com/150x220?text=Bez+obrázka" class="img-fluid rounded-start" alt="No image">
+                                {% endif %}
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body py-0">
+                                    <h5 class="card-title ">
+                                        <a href="{{ url_for('description', kniha_id=kniha.id) }}" class="text-decoration-none" style="color: #333;">
+                                            {{ kniha.volumeInfo.title if kniha.volumeInfo.title else 'Názov nie je k dispozícii' }}
+                                        </a>
+                                    </h5>
+                                    <h6 class="card-title">
+                                        {{ kniha.volumeInfo.authors if kniha.volumeInfo.authors else 'Neznámy autor' }}
+                                    </h6>
+                                    <p class="card-text " style="font-size: 0.9rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;">
+                                        {{ kniha.volumeInfo.description if kniha.volumeInfo.description else 'Popis nie je k dispozícii.' }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+            
+
+
+
+
+
+
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul>
+                    {% for category, message in messages %}
+                        <p class="{{ category }} font-monospace">{{ message }}</p>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+</body>
+</html>

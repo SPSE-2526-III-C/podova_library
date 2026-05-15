@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash, session, request
+from flask import Flask, json, render_template, redirect, url_for, request, flash, session, request
 import os, smtplib
 from email.message import EmailMessage
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -29,12 +29,17 @@ if __name__ == '__main__':
     db.create_all()
     app.secret_key="Bubble"
     app.run(host='127.0.0.1', port=5000)
+    app.run(debug=True)
 
 
 with app.app_context():
     db.create_all()
 
-@app.route('/') 
+@app.route('/base')
+def base():
+    return render_template('index.html')
+
+@app.route('/index') 
 def home_page():
     return render_template('index.html')
 
@@ -66,27 +71,40 @@ def contact():
         return redirect(url_for('contact'))
     return render_template('contact.html')
 
-@app.route('/_base')
-def base():
-    vysledky_knih = [] # Tu budeme ukladať to, čo nám API pošle
+@app.route('/hladaj', methods=['GET', 'POST'])
+def hladaj():
+    kniha_nazov = request.form.get('kniha').lower()
+    TESTOVACI_REŽIM = True
     
-    if request.method == 'POST':
-        hladane_slovo = request.form.get('input_knihy')
+    if not kniha_nazov:
+        return redirect(url_for('base'))
+    elif request.method == 'POST':
         
-        # TOTO JE TO PREPOJENIE:
-        # Pripravíme si adresu pre Google API s naším slovom
-        url = f"https://www.googleapis.com/books/v1/volumes?q={hladane_slovo}"
-        
-        # Python teraz "pôjde" na túto adresu a stiahne dáta
-        odpoved = requests.get(url)
-        
-        
-        if odpoved.status_code == 200:
-            data = odpoved.json() # Premeníme surový text na Python zoznam
-            vysledky_knih = data.get('items', []) # Vytiahneme zoznam kníh
-            return render_template('base.html', knihy=vysledky_knih)
-    return render_template('base.html', knihy=vysledky_knih)
+        if TESTOVACI_REŽIM:
+            with open('test.json', encoding='utf-8') as f:
+                vsetky_data = json.load(f)
+            vysledok = []
+            for kniha in vsetky_data.get('items', []):
+                nazov_knihy = kniha['volumeInfo'].get('title', '').lower()
+                autor_knihy = kniha['volumeInfo'].get('authors', '').lower()
+                if kniha_nazov in nazov_knihy or kniha_nazov in autor_knihy:
+                    vysledok.append(kniha)
 
+                
+        # Prepíšeme dáta len tými, ktoré prešli filtrom
+            data = {'items': vysledok}
+    
+        elif kniha_nazov:
+            kniha_nazov = request.form.get('kniha')
+            url = f"https://www.googleapis.com/books/v1/volumes?q={kniha_nazov}&key=AIzaSyD9Iow9WEZqUV4-h65XYSs6YHZ-LPfvT1w"
+            print(url)
+            response = requests.get(url)
+            data = response.json()
+            print(data)
+
+    
+        
+    return render_template('vysledky.html', knihy = data.get('items', []))
 
 
 @app.route('/books')
@@ -170,3 +188,50 @@ def logout():
 
     return render_template('logout.html')
     
+
+@app.route('/vysledky')
+def vysledky():
+    kniha_nazov = request.form.get('kniha').lower()
+    TESTOVACI_REŽIM = True
+    
+    if not kniha_nazov:
+        return redirect(url_for('base'))
+    elif request.method == 'POST':
+        
+        if TESTOVACI_REŽIM:
+            with open('test.json', encoding='utf-8') as f:
+                vsetky_data = json.load(f)
+            vysledok = []
+            for kniha in vsetky_data.get('items', []):
+                nazov_knihy = kniha['volumeInfo'].get('title', '').lower()
+                autor_knihy = kniha['volumeInfo'].get('authors', '').lower()
+                if kniha_nazov in nazov_knihy or kniha_nazov in autor_knihy:
+                    vysledok.append(kniha)
+
+            data = {'items': vysledok}
+            print(data)
+    
+        elif kniha_nazov:
+            kniha_nazov = request.form.get('kniha')
+            url = f"https://www.googleapis.com/books/v1/volumes?q={kniha_nazov}&key=AIzaSyD9Iow9WEZqUV4-h65XYSs6YHZ-LPfvT1w"
+            print(url)
+            response = requests.get(url)
+            data = response.json()
+            print(data)
+    
+
+        
+    return render_template('vysledky.html', knihy = data.get('items', []))
+
+
+@app.route('/description/<kniha_id>')
+def description(kniha_id):
+    vysledok = []
+    with open('test.json', encoding='utf-8') as f:
+        data = json.load(f)
+    for kniha in data.get('items', []):
+        if kniha['id'] == kniha_id:
+            vysledok.append(kniha)
+    data = {'items': vysledok}
+    
+    return render_template('description.html', kniha=data.get('items', [])[0] if data.get('items', []) else None)
