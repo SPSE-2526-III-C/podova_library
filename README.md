@@ -21,8 +21,6 @@ poznámky
 • integrácia externého API (napr. Google Books) 
 • automatické načítanie údajov o knihe (obálka, popis, autor) 
 • nastavenie čitateľských cieľov (napr. počet kníh za rok) 
-• notifikácie (pripomienky čítania) 
-• dark mode 
 • responzívny dizajn (mobil, tablet) 
 • export čitateľského denníka (napr. PDF) 
 ### Technológie: 
