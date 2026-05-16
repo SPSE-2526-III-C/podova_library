@@ -48,7 +48,7 @@
                                         </a>
                                     </h5>
                                     <h6 class="card-title">
-                                        {{ kniha.volumeInfo.authors if kniha.volumeInfo.authors else 'Neznámy autor' }}
+                                        {{ kniha.volumeInfo.authors | join(', ') if kniha.volumeInfo.authors else 'Neznámy autor' }}
                                     </h6>
                                     <p class="card-text " style="font-size: 0.9rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;">
                                         {{ kniha.volumeInfo.description if kniha.volumeInfo.description else 'Popis nie je k dispozícii.' }}

@@ -39,7 +39,7 @@ with app.app_context():
 def base():
     return render_template('index.html')
 
-@app.route('/index') 
+@app.route('/') 
 def home_page():
     return render_template('index.html')
 
@@ -91,7 +91,7 @@ def hladaj():
                     vysledok.append(kniha)
 
                 
-        # Prepíšeme dáta len tými, ktoré prešli filtrom
+        
             data = {'items': vysledok}
     
         elif kniha_nazov:
@@ -226,12 +226,29 @@ def vysledky():
 
 @app.route('/description/<kniha_id>')
 def description(kniha_id):
+    TESTOVACI_REŽIM = True
     vysledok = []
-    with open('test.json', encoding='utf-8') as f:
-        data = json.load(f)
-    for kniha in data.get('items', []):
-        if kniha['id'] == kniha_id:
-            vysledok.append(kniha)
-    data = {'items': vysledok}
+    if kniha_id: 
     
+        if TESTOVACI_REŽIM:
+            with open('test.json', encoding='utf-8') as f:
+                data = json.load(f)
+            for kniha in data.get('items', []):
+                if kniha['id'] == kniha_id:
+                    vysledok.append(kniha)
+            data = {'items': vysledok}
+
+        else:
+            url = f"https://www.googleapis.com/books/v1/volumes?q={kniha_id}&key=AIzaSyD9Iow9WEZqUV4-h65XYSs6YHZ-LPfvT1w"
+            print(url)
+            response = requests.get(url)
+            data = response.json()
+    
+    else:
+        flash("Book was not found")
+        return redirect(url_for('base'))
+    
+    
+
+
     return render_template('description.html', kniha=data.get('items', [])[0] if data.get('items', []) else None)
