@@ -3,7 +3,7 @@ from wtforms import StringField, TextAreaField, SelectField, SubmitField
 from wtforms.validators import DataRequired, Length
 
 class KorculovanieForm(FlaskForm):
-    nazov = StringField(
+    photos = StringField(
         "Koľko minút si korčuľoval?",
         validators=[DataRequired(), Length(max=100)]
     )

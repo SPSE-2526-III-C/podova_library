@@ -12,14 +12,14 @@ poznámky
 • pridane knihy (manuálne alebo cez API) 
 • evidencia kníh (prečítané / čítam / plánujem čítať) 
 • hodnotenie kníh (1–5) 
-• poznámky a recenzie ku knihám 
+• poznamky 
 • vyhľadávanie a filtrovanie kníh 
 • sledovanie progresu čítania (napr. počet strán / %) 
 ### Doplňujúce funkcionality: 
 • odporúčanie kníh na základe hodnotení a preferencií používateľa 
 • integrácia externého API (napr. Google Books) 
 • automatické načítanie údajov o knihe (obálka, popis, autor) 
-• nastavenie čitateľských cieľov (napr. počet kníh za rok) 
+• kontakt na email
 • responzívny dizajn (mobil, tablet) 
 ### Technológie: 
 • frontend: HTML, CSS, JavaScript (React / Vue) 

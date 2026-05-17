@@ -10,7 +10,7 @@
     </head>
 
     <body style="background-color: #fbf0de;">
-        <nav class="navbar bg-body-tertiary" style="background-color: #eacaac !important;">
+        <nav class="navbar bg-body-tertiary  fixed-top" style="background-color: #eacaac !important;">
             <div class="container-fluid">
                 <a href="{{ url_for('login') }}">
                     <img src="{{ url_for('static', filename='img/stiahnuť.png') }}" alt="Ikona knihy" style="width: 50px;">
@@ -21,13 +21,17 @@
                 </form>
             </div>
         </nav>
-        <p class="text-center fs-1 fw-bolder" style="font-family:'Pinyon Script', cursive;;">Books of your dreams</p> 
+        <p class="text-center fs-1 fw-bolder" style="font-family:'Pinyon Script', cursive; margin-top: 5rem;">Books of your dreams</p> 
         <p class="text-center fs-6 fw-bolder  fw-bolder font-monospace">Every page is a new adventure</p>
         <hr class="fade-line my-4">
         <div class="container mt-1 ">
             <ul class="nav justify-content-center d-flex justify-content-between">
                 <li class="nav-item font-monospace">
-                    <a class="nav-link active text-black text-opacity-100" aria-current="page" href="books.html">Your books!</a>
+                    {% if 'logged_in' in session and session['logged_in'] %}
+                        <a class="nav-link text-black text-opacity-100" href="{{ url_for('profile', user_id=session['user_id']) }}">Your books!</a>
+                    {% else %}
+                        <a class="nav-link text-black text-opacity-100" href="{{ url_for('login') }}">Your books!</a>
+                    {% endif %}
                 </li>
                 <li class="nav-item font-monospace">
                     <a class="nav-link text-black text-opacity-75" href="{{ url_for('login') }}">Login</a>
@@ -84,7 +88,7 @@
         
         
         {% block content %}{% endblock %}
-        <footer class="py-4 mt-6 text-center fixed-bottom" style="background-color: #eacaac;">
+        <footer class="py-4 mt-6 text-center " style="background-color: #eacaac;">
             <a class="navbar-brand font-monospace"> Want to know more about us?</a><a class="btn font-monospace" href="{{ url_for('contact') }}">Click here!</a>
         </footer>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"

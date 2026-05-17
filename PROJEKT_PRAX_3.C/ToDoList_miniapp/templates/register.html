@@ -36,7 +36,7 @@
     
     </head>
     <body style="background-image: url('{{ url_for('static', filename='img/generated_image.jpg') }}'); ">
-        <nav class="navbar bg-body-tertiary" style="background-color: #eacaac !important;">
+        <nav class="navbar bg-body-tertiary fixed-top" style="background-color: #eacaac !important;">
             <div class="container-fluid">
                 <a href="{{ url_for('base') }}">
                     <img src="{{ url_for('static', filename='img/stiahnuť.png') }}" alt="Ikona knihy" style="width: 50px;">
@@ -47,7 +47,7 @@
                 </form>
             </div>
         </nav>
-        <h1 class="text-center fs-1 fw-bolder" style="margin-top: 30px;">Register Page</h1>
+        <h1 class="text-center fs-1 fw-bolder" style="margin-top: 30px;">Register</h1>
         
         <div class="blur-area">
             <div class="card mx-auto mb-3 glass-card rounded-10  " style="width: 1000px;height: 500px; margin-top: 80px; border: none;">

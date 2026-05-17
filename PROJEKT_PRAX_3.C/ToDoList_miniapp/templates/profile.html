@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{% endblock %}</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <style>
+            /* Toto rozmaže pozadie iba pod kartou, navbar zostane nedotknutý */
+            .glass-card {
+                /* rgba(255, 255, 255, 0.4) je polopriehľadná biela */
+                background-color: rgba(255, 255, 255, 0.4) !important; 
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+            }
+
+            /* Fixácia pozadia, aby sa pri skrolovaní nehýbalo */
+            body {
+                background-attachment: fixed;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+            
+            /* Zabezpečíme, aby navbar mal svoju pevnú farbu a nebol ovplyvnený */
+            .navbar {
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+            }
+
+            .flash { padding: 10px; margin: 10px 0; border-radius: 5px; }
+            .success { background-color: #d4edda; color: #155724; width: 350px; border-radius: 10px; text-align: center; margin: 20px auto; }
+            .error { background-color: #f8d7da; color: #721c24; width: 350px; border-radius: 10px; text-align: center; margin: 20px auto; }
+        </style>
+    
+
+
+    </head>
+<body style="background-image: url('{{ url_for('static', filename='img/generated_image.jpg') }}'); background-attachment: fixed; background-size: cover;background-position: center;">
+    <nav class="navbar bg-body-tertiary fixed-top" style="background-color: #eacaac !important;">
+        
+        <div class="container-fluid">
+            
+                <img src="{{ url_for('static', filename='img/stiahnuť.png') }}" alt="Ikona knihy" style="width: 50px;">
+             
+            <h1>Books</h1> 
+            <a class="btn btn-dark" href="{{ url_for('base') }}" role="button">Back</a>
+        </div>
+        
+    </nav>
+    <h1 class="text-center fs-1 fw-bolder" style="margin-top: 5rem;">My_profile</h1>
+    <div class="blur-area">
+            <div class="card mx-auto mb-3 glass-card rounded-10 " style="width: 29rem;min-height: 25rem; margin-top: 80px; border: none;">
+                <div class="row g-0">
+
+        
+                <div class="col-md- p-3 d-flex flex-column justify-content-center align-items-center">
+                    <img src="{{ url_for('static', filename='profile_pics/'+photo) }}" class="card-img-top " style="border-radius: 50%; height: 10rem;width: 10rem;" alt="...">
+                    <form method="post">
+                        {%if photo%}
+                            <input type="radio" id="html" name="vybrany_avatar" value="default.jpg">
+                            <img src="{{ url_for('static', filename='profile_pics/default.jpg') }}" class="card-img-top " style="border-radius: 50%; height: 10rem;width: 10rem;" alt="...">
+                            <input type="radio" id="html" name="vybrany_avatar" value="default1.jpg">
+                            <img src="{{ url_for('static', filename='profile_pics/default1.jpg') }}" class="card-img-top " style="border-radius: 50%; height: 10rem;width: 10rem;" alt="...">
+                            <button type="submit" class="btn btn-primary mt-3">Uložiť fotku</button>
+                        {%else%}
+                            <img src="https://via.placeholder.com/150?text=No+Avatar" class="card-img-top" style="border-radius: 50%; height: 10rem; width: 10rem;" alt="...">
+                        {%endif%}
+                    </form >
+                        <h4 class="card-title">{{username}}</h4>
+                    
+                    <h5 class="card-text" style>My books:</h5>
+
+                    {%for kniha in my_book%}
+                        <h5 class="text-center fs-1 fw-bolder" style="margin-bottom: rem; font-family: 'Pinyon Script', cursive;">
+                            {{ kniha.book_title if kniha.book_title else "Book is unavailable" }}
+                        </h5>
+                        <form action="{{url_for ('delete', book_id=kniha.id)}}" method="post">
+                            <button   class="btn btn-danger" type="submit">Delete</button>
+                        </form>
+                    {%endfor%}
+                </div>
+                </div>
+            </div>    
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <p class="{{ category }} font-monospace">{{ message }}</p>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</body>
+</html>

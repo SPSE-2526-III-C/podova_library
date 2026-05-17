@@ -31,17 +31,21 @@
                 backdrop-filter: none !important;
                 -webkit-backdrop-filter: none !important;
             }
-
+            .flash { padding: 10px; margin: 10px 0; border-radius: 5px; }
+            .success { background-color: #d4edda; color: #155724; width: 350px; border-radius: 10px; text-align: center; margin: 20px auto; }
+            .error { background-color: #f8d7da; color: #721c24; width: 350px; border-radius: 10px; text-align: center; margin: 20px auto; }
 
         </style>
     
     </head>
 <body style="background-image: url('{{ url_for('static', filename='img/generated_image.jpg') }}'); ">
-    <nav class="navbar bg-body-tertiary" style="background-color: #eacaac !important;">
+    <nav class="navbar bg-body-tertiary fixed-top" style="background-color: #eacaac !important; ">
         <div class="container-fluid">
-            <a href="{{ url_for('login') }}">
-                <img src="{{ url_for('static', filename='img/stiahnuť.png') }}" alt="Ikona knihy" style="width: 50px;">
-            </a>
+        
+            <img src="{{ url_for('static', filename='img/stiahnuť.png') }}" alt="Ikona knihy" style="width: 50px;">
+            
+            <h1>Books</h1> 
+            <a class="btn btn-dark" href="{{ url_for('vysledky') }}" role="button">Back</a>
         </div>
     </nav>
     
@@ -68,18 +72,28 @@
                     </div>
                 </div>
             </div>
-        </div> <div style="width: 700px; margin-top: px;">
+        </div> 
+        <form method="post">
+        <div style="width: 700px; margin-top: px;">
             {% if 'logged_in' in session %}
-                <button type="button" class="btn btn-dark w-100">Add to my_books!</button>
+                <button type="submit" class="btn btn-dark w-100">Add to my_books!</button>
             {% else %}
                 <a class="btn btn-dark w-100" href="{{ url_for('login') }}" role="button">Log in first to add your books</a>
             {% endif %}
         </div>
-
+        </form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <p class="{{ category }} font-monospace">{{ message }}</p>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
     </div>
 
     
-
     
 </body>
 </html>

@@ -22,13 +22,13 @@
             </div>
         </nav>
         
-        <p class="text-center  " style="font-family: 'Pinyon Script', cursive;">Books of your dreams</p> 
+        <p class="text-center  fs-1 fw-bolder" style="font-family: 'Pinyon Script', cursive;">Books of your dreams</p> 
         <p class="text-center fs-6 fw-bolder  fw-bolder font-monospace">Every page is a new adventure</p>
         <hr class="fade-line my-4">
         <div class="container mt-1 ">
             <ul class="nav justify-content-center d-flex justify-content-between">
                 <li class="nav-item font-monospace">
-                    <a class="nav-link active text-black text-opacity-100" aria-current="page" href="books.html">Your books!</a>
+                    <a class="nav-link text-black text-opacity-100" href="{{ url_for('profile') }}">Your books!</a>
                 </li>
                 <li class="nav-item font-monospace">
                     <a class="nav-link text-black text-opacity-75" href="{{ url_for('login') }}">Login</a>

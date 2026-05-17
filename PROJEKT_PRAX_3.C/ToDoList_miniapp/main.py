@@ -6,7 +6,7 @@ import requests
 
 # 1. IMPORTUJ DB A MODELY (Pridaj aj 'Pridaj', ak ho tam máš)
 from extensions import db
-from models import User
+from models import User, SavedBook
 from forms import KorculovanieForm
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -127,7 +127,9 @@ def login():
         
         elif query_user and check_password_hash(query_user.password, password):
             session['logged_in'] = True
+            session['user_id'] = query_user.id
             return redirect(url_for('base'))
+
         
         else:
             
@@ -162,8 +164,8 @@ def register():
             )
             db.session.add(new_user)
             db.session.commit()
-            
-            return redirect(url_for('base'))
+            flash("Registraision success! Please log in", "error")
+            return redirect(url_for('login'))
         
     return render_template('register.html')
 
@@ -191,7 +193,7 @@ def logout():
 
 @app.route('/vysledky')
 def vysledky():
-    kniha_nazov = request.form.get('kniha').lower()
+    kniha_nazov = (request.form.get('kniha')or "").lower()
     TESTOVACI_REŽIM = True
     
     if not kniha_nazov:
@@ -218,18 +220,17 @@ def vysledky():
             response = requests.get(url)
             data = response.json()
             print(data)
-    
 
         
     return render_template('vysledky.html', knihy = data.get('items', []))
 
 
-@app.route('/description/<kniha_id>')
+@app.route('/description/<kniha_id>', methods = ['GET', 'POST'])
 def description(kniha_id):
     TESTOVACI_REŽIM = True
     vysledok = []
     if kniha_id: 
-    
+        
         if TESTOVACI_REŽIM:
             with open('test.json', encoding='utf-8') as f:
                 data = json.load(f)
@@ -243,12 +244,51 @@ def description(kniha_id):
             print(url)
             response = requests.get(url)
             data = response.json()
-    
+
     else:
         flash("Book was not found")
-        return redirect(url_for('base'))
+        return redirect(url_for('vysledky'))
     
-    
-
+    if request.method == 'POST':
+        user_id = session.get('user_id')
+        nazov_kniha = data.get('items', [])[0]['volumeInfo']['title']
+        ulozena = SavedBook.query.filter_by(user_id=user_id,book_title=nazov_kniha).first()
+        if ulozena:
+            flash("this books is already saved", "error")
+            return redirect(url_for('description', kniha_id=kniha_id))
+        else:
+            nova_kniha = SavedBook(book_title = nazov_kniha, user_id = user_id)
+            db.session.add(nova_kniha)
+            db.session.commit()
+            return redirect(url_for('profile', user_id=user_id))
 
     return render_template('description.html', kniha=data.get('items', [])[0] if data.get('items', []) else None)
+
+
+@app.route('/profile/<int:user_id>', methods=['GET', 'POST'])
+def profile(user_id):
+    username = None
+    photo = None
+    my_book = []
+    if 'logged_in' in session:
+        if user_id:
+            
+            user = User.query.get(user_id)
+            
+            if user: 
+                username = user.username
+                photo = user.photo
+                my_book = SavedBook.query.filter_by(user_id=user_id).all()
+                if request.method == 'POST':
+                    user.photo = request.form.get('vybrany_avatar')
+                    db.session.commit()
+
+    return render_template('profile.html', username = username, photo=photo, my_book = my_book)
+
+@app.route('/delete/<int:book_id>', methods=['GET', 'POST'])
+def delete(book_id):
+    kniha = SavedBook.query.get(book_id)
+    db.session.delete(kniha)
+    db.session.commit()
+    user_id = session.get('user_id')
+    return redirect(url_for('profile', user_id = user_id))

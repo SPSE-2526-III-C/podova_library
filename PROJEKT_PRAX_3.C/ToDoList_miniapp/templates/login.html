@@ -38,11 +38,13 @@
     </head>
     
     <body style="background-image: url('{{ url_for('static', filename='img/generated_image.jpg') }}'); ">
-        <nav class="navbar bg-body-tertiary" style="background-color: #eacaac !important;">
+        <nav class="navbar bg-body-tertiary fixed-top" style="background-color: #eacaac !important;">
             <div class="container-fluid">
                 <a href="{{ url_for('base') }}">
                     <img src="{{ url_for('static', filename='img/stiahnuť.png') }}" alt="Ikona knihy" style="width: 50px;">
                 </a>
+                <h1>Books</h1> 
+                <a class="btn btn-dark" href="{{ url_for('base') }}" role="button">Back</a>
                 
             </div>
         </nav>
