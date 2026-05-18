@@ -22,3 +22,5 @@ class SavedBook(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     book_author = db.Column(db.String(80))
     rating = db.Column(db.Integer, nullable = True)
+    notes = db.Column(db.Text, nullable= True)
+    reading_status = db.Column(db.String(80), nullable=True)

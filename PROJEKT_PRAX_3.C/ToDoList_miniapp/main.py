@@ -247,7 +247,7 @@ def description(kniha_id):
 
     else:
         flash("Book was not found")
-        return redirect(url_for('vysledky'))
+        return redirect(url_for('base'))
     
     if request.method == 'POST':
         user_id = session.get('user_id')
@@ -292,3 +292,17 @@ def delete(book_id):
     db.session.commit()
     user_id = session.get('user_id')
     return redirect(url_for('profile', user_id = user_id))
+
+@app.route('/update_book/<int:book_id>', methods=['GET','POST'])
+def update_book(book_id):
+    
+    rating = request.form.get('rating')
+    notes = request.form.get('notes')
+    reading_status = request.form.get('status')
+    kniha = SavedBook.query.get(book_id)
+    kniha.rating =  rating
+    kniha.notes = notes
+    kniha.reading_status = reading_status
+    db.session.commit()
+    return redirect(url_for('profile', user_id = kniha.user_id))
+

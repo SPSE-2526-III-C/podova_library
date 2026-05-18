@@ -33,6 +33,31 @@
             .flash { padding: 10px; margin: 10px 0; border-radius: 5px; }
             .success { background-color: #d4edda; color: #155724; width: 350px; border-radius: 10px; text-align: center; margin: 20px auto; }
             .error { background-color: #f8d7da; color: #721c24; width: 350px; border-radius: 10px; text-align: center; margin: 20px auto; }
+            
+            .rating{
+                display: inline-flex;
+                flex-direction: row-reverse;
+            }
+            .rating input{
+                display: none;
+            }
+            
+            .rating label{
+                cursor: pointer;
+                font-size: 32px;
+                color: #9c9c9c;
+                transition: color 0.25s ease;
+            }
+
+            .rating label::before{
+                content: "★";
+            }
+            
+            .rating input:checked ~ label,
+            .rating label:hover,
+            .rating label:hover ~ label{
+                color: #ffe204;
+            }
         </style>
     
 
@@ -77,6 +102,43 @@
                         <h5 class="text-center fs-1 fw-bolder" style="margin-bottom: rem; font-family: 'Pinyon Script', cursive;">
                             {{ kniha.book_title if kniha.book_title else "Book is unavailable" }}
                         </h5>
+                        
+                            <p>hodnotenie:{{kniha.rating}}</p>
+                            <p>poznamky:{{kniha.notes}}</p>
+                            <p>Stav:{{kniha.reading_status}}</p>
+                            <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#editForm-{{kniha.id}}">Change</button>
+
+                            <div class="collapse" id="editForm-{{ kniha.id }}">
+                                <form  action="{{ url_for('update_book', book_id=kniha.id)}}" method="post">
+                                    <button class="btn btn-success" type="submit">Uložiť zmeny</button>
+                                    <div>
+                                        <div class="rating">
+                                            <input type="radio" id="star5-{{kniha.id}}" name="rating" value="5">
+                                            <label for="star5-{{kniha.id}}"></label>
+                                            <input type="radio" id="star4-{{kniha.id}}" name="rating" value="4">
+                                            <label for="star4-{{kniha.id}}"></label>
+                                            <input type="radio" id="star3-{{kniha.id}}" name="rating" value="3">
+                                            <label for="star3-{{kniha.id}}"></label>
+                                            <input type="radio" id="star2-{{kniha.id}}" name="rating" value="2">
+                                            <label for="star2-{{kniha.id}}"></label>
+                                            <input type="radio" id="star1-{{kniha.id}}" name="rating" value="1">
+                                            <label for="star1-{{kniha.id}}"></label>
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <p >Poznamky </p>
+                                            <input type="text" name="notes" class="form-control" aria-label="Text input with checkbox">
+                                        </div>
+                                        <label for="status">Choose a status:</label>
+                                        <select name="status" id="cars">
+                                            <option value="prečítané">prečítané</option>
+                                            <option value="citam">citam</option>
+                                            <option value="planujem">planujem</option>
+                                        </select>
+                                        <button   class="btn btn-success" type="submit">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        
                         <form action="{{url_for ('delete', book_id=kniha.id)}}" method="post">
                             <button   class="btn btn-danger" type="submit">Delete</button>
                         </form>
@@ -95,5 +157,6 @@
         {% endif %}
     {% endwith %}
     {% block content %}{% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
