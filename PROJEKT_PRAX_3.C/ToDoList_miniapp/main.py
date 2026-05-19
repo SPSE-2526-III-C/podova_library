@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import requests
 import random
 
-# 1. IMPORTUJ DB A MODELY (Pridaj aj 'Pridaj', ak ho tam máš)
+
 from extensions import db
 from models import User, SavedBook
 from forms import KorculovanieForm
@@ -47,12 +47,12 @@ def home_page():
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
     if request.method == 'POST':
-        # 1. Získanie dát z formulára
+        
         meno = request.form.get('name')
         uzivatel_email = request.form.get('email')
         sprava = request.form.get('message')
 
-        # 2. Príprava e-mailu
+        
         msg = EmailMessage()
         msg['Subject'] = f"Nová správa od: {meno}"
         msg['From'] = EMAIL_ADRESA
@@ -60,7 +60,7 @@ def contact():
         msg['Reply-To'] = uzivatel_email
         msg.set_content(f"Meno: {meno}\nE-mail: {uzivatel_email}\n\nSpráva:\n{sprava}")
 
-        # 3. Reálne odoslanie
+        
         try:
             with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
                 smtp.login(EMAIL_ADRESA, EMAIL_HESLO)
