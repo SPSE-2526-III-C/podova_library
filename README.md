@@ -14,7 +14,6 @@ poznámky
 • hodnotenie kníh (1–5) 
 • poznamky 
 • vyhľadávanie a filtrovanie kníh 
-• sledovanie progresu čítania (napr. počet strán / %) 
 ### Doplňujúce funkcionality: 
 • odporúčanie kníh na základe hodnotení a preferencií používateľa 
 • integrácia externého API (napr. Google Books) 

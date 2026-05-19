@@ -48,40 +48,47 @@
             <a class="btn btn-dark" href="{{ url_for('vysledky') }}" role="button">Back</a>
         </div>
     </nav>
-    
-    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; width: 100%;">
-        <h5 class="text-center fs-1 fw-bolder" style="margin-bottom: rem; font-family: 'Pinyon Script', cursive;">
-            {{ kniha.volumeInfo.title if kniha.volumeInfo.title else "Book is unavailable" }}
-        </h5>
-        <div class="card mb-3 glass-card" style="width: 700px; min-height: 400px; border: none; font-family: 'Pinyon Script', cursive;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    {% if kniha.volumeInfo.imageLinks and kniha.volumeInfo.imageLinks.thumbnail %}
-                        <img src="{{kniha.volumeInfo.imageLinks.thumbnail}}" class="img-fluid rounded-start" alt="..." style="height: 400px; width: 100%; object-fit: cover;">
-                    {% else %}
-                        <img src="https://via.placeholder.com/150x220?text=Bez+obrázka" class="img-fluid rounded-start" alt="No image">
-                    {% endif %} 
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <p class="card-text" style="margin-top: 20px; color: rgb(147, 71, 13);">Author:</p>
-                        <h4 class="card-title" style="margin-left: 30px; margin-top: -10px;">{{ kniha.volumeInfo.authors | join(', ') if kniha.volumeInfo.authors else "Neznámy autor" }}</h4>
-                        
-                        <p class="card-text" style="margin-top: 40px; color: rgb(147, 71, 13); ">Description:</p>
-                        <h6 class="card-text" style="margin-left: 30px; margin-top: -10px;">{{ kniha.volumeInfo.description if kniha.volumeInfo.description }}</h6>
+    {% if kniha %}
+        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; width: 100%;">
+            <h5 class="text-center fs-1 fw-bolder" style="margin-bottom: rem; font-family: 'Pinyon Script', cursive;">
+                {{ kniha.volumeInfo.title if kniha.volumeInfo.title else "Book is unavailable" }}
+            </h5>
+            <div class="card mb-3 glass-card" style="width: 700px; min-height: 400px; border: none; font-family: 'Pinyon Script', cursive;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        {% if kniha.volumeInfo.imageLinks and kniha.volumeInfo.imageLinks.thumbnail %}
+                            <img src="{{kniha.volumeInfo.imageLinks.thumbnail}}" class="img-fluid rounded-start" alt="..." style="height: 400px; width: 100%; object-fit: cover;">
+                        {% else %}
+                            <img src="https://via.placeholder.com/150x220?text=Bez+obrázka" class="img-fluid rounded-start" alt="No image">
+                        {% endif %} 
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <p class="card-text" style="margin-top: 20px; color: rgb(147, 71, 13);">Author:</p>
+                            <h4 class="card-title" style="margin-left: 30px; margin-top: -10px;">{{ kniha.volumeInfo.authors | join(', ') if kniha.volumeInfo.authors else "Neznámy autor" }}</h4>
+                            
+                            <p class="card-text" style="margin-top: 40px; color: rgb(147, 71, 13); ">Description:</p>
+                            <h6 class="card-text" style="margin-left: 30px; margin-top: -10px;">{{ kniha.volumeInfo.description if kniha.volumeInfo.description }}</h6>
+                        </div>
                     </div>
                 </div>
+            </div> 
+            <form method="post">
+            <div style="width: 700px; margin-top: px;">
+                {% if 'logged_in' in session %}
+                    <button type="submit" class="btn btn-dark w-100">Add to my_books!</button>
+                {% else %}
+                    <a class="btn btn-dark w-100" href="{{ url_for('login') }}" role="button">Log in first to add your books</a>
+                {% endif %}
             </div>
-        </div> 
-        <form method="post">
-        <div style="width: 700px; margin-top: px;">
-            {% if 'logged_in' in session %}
-                <button type="submit" class="btn btn-dark w-100">Add to my_books!</button>
-            {% else %}
-                <a class="btn btn-dark w-100" href="{{ url_for('login') }}" role="button">Log in first to add your books</a>
-            {% endif %}
-        </div>
-        </form>
+            </form>
+        {% else %}
+            <div class="container text-center" style="margin-top: 5rem;">
+                <h3>Detaily o knihe nie sú momentálne dostupné</h3>
+                <p>Nepodarilo sa načítať dáta z Google API pre toto ID.</p>
+                <a href="{{ url_for('rec') }}" class="btn btn-primary">Späť na odporúčania</a>
+            </div>
+        {% endif %}
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <ul>

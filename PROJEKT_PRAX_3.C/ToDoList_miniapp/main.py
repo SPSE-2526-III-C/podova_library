@@ -3,6 +3,7 @@ import os, smtplib
 from email.message import EmailMessage
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
+import random
 
 # 1. IMPORTUJ DB A MODELY (Pridaj aj 'Pridaj', ak ho tam máš)
 from extensions import db
@@ -74,7 +75,7 @@ def contact():
 @app.route('/hladaj', methods=['GET', 'POST'])
 def hladaj():
     kniha_nazov = request.form.get('kniha').lower()
-    TESTOVACI_REŽIM = True
+    TESTOVACI_REŽIM = False
     
     if not kniha_nazov:
         return redirect(url_for('base'))
@@ -194,7 +195,7 @@ def logout():
 @app.route('/vysledky')
 def vysledky():
     kniha_nazov = (request.form.get('kniha')or "").lower()
-    TESTOVACI_REŽIM = True
+    TESTOVACI_REŽIM = False
     
     if not kniha_nazov:
         return redirect(url_for('base'))
@@ -227,7 +228,7 @@ def vysledky():
 
 @app.route('/description/<kniha_id>', methods = ['GET', 'POST'])
 def description(kniha_id):
-    TESTOVACI_REŽIM = True
+    TESTOVACI_REŽIM = False
     vysledok = []
     if kniha_id: 
         
@@ -240,7 +241,7 @@ def description(kniha_id):
             data = {'items': vysledok}
 
         else:
-            url = f"https://www.googleapis.com/books/v1/volumes?q={kniha_id}&key=AIzaSyD9Iow9WEZqUV4-h65XYSs6YHZ-LPfvT1w"
+            url = f"https://www.googleapis.com/books/v1/volumes/{kniha_id}?key=AIzaSyD9Iow9WEZqUV4-h65XYSs6YHZ-LPfvT1w"
             print(url)
             response = requests.get(url)
             data = response.json()
@@ -249,20 +250,32 @@ def description(kniha_id):
         flash("Book was not found")
         return redirect(url_for('base'))
     
+    if data.get('items'):
+        kniha_pre_html = data['items'][0]
+    elif 'volumeInfo' in data:
+        kniha_pre_html = data
+    else:
+        kniha_pre_html = None
+    
     if request.method == 'POST':
         user_id = session.get('user_id')
-        nazov_kniha = data.get('items', [])[0]['volumeInfo']['title']
-        ulozena = SavedBook.query.filter_by(user_id=user_id,book_title=nazov_kniha).first()
-        if ulozena:
-            flash("this books is already saved", "error")
-            return redirect(url_for('description', kniha_id=kniha_id))
+        
+        if kniha_pre_html:
+            nazov_kniha = kniha_pre_html['volumeInfo']['title']
+            ulozena = SavedBook.query.filter_by(user_id=user_id, book_title=nazov_kniha).first()
+            if ulozena:
+                flash("this book is already saved", "error")
+                return redirect(url_for('description', kniha_id=kniha_id))
+            else:
+                nova_kniha = SavedBook(book_title = nazov_kniha, user_id = user_id)
+                db.session.add(nova_kniha)
+                db.session.commit()
+                return redirect(url_for('profile', user_id=user_id))
         else:
-            nova_kniha = SavedBook(book_title = nazov_kniha, user_id = user_id)
-            db.session.add(nova_kniha)
-            db.session.commit()
-            return redirect(url_for('profile', user_id=user_id))
+            flash("Cannot save an invalid book")
+            return redirect(url_for('rec'))
 
-    return render_template('description.html', kniha=data.get('items', [])[0] if data.get('items', []) else None)
+    return render_template('description.html', kniha=kniha_pre_html)
 
 
 @app.route('/profile/<int:user_id>', methods=['GET', 'POST'])
@@ -306,3 +319,36 @@ def update_book(book_id):
     db.session.commit()
     return redirect(url_for('profile', user_id = kniha.user_id))
 
+@app.route('/rec', methods=['GET','POST'])
+def rec():
+    TESTOVACI_REZIM = False
+    if not 'logged_in' in session:
+        flash("Invalid request. Please log in first")
+        return redirect(url_for('login'))
+    
+    if 'logged_in' in session:
+        user_id = session.get('user_id')
+        moje_knihy = SavedBook.query.filter_by(user_id=user_id).all()
+        hladany_vyraz = "bestsellers"
+        if moje_knihy:
+            hladany_vyraz= random.choice(moje_knihy).book_title
+        else:
+            hladany_vyraz= hladany_vyraz
+        if TESTOVACI_REZIM:
+            with open('test.json', encoding='utf-8') as f:
+                data = json.load(f)
+                odporucane = []
+                for kniha in data.get('items', []):
+                    if hladany_vyraz.lower() in kniha['volumeInfo'].get('title','').lower():
+                        odporucane.append(kniha)
+                if not odporucane:
+                    odporucane=data.get('items',[])[:5]
+                    data = {'items': odporucane}
+        else:
+            url = f"https://www.googleapis.com/books/v1/volumes?q={hladany_vyraz}&key=AIzaSyD9Iow9WEZqUV4-h65XYSs6YHZ-LPfvT1w"
+            response = requests.get(url)
+            data = response.json()
+
+        
+
+        return render_template('rec.html', knihy=data.get('items',[]), podla_knihy = hladany_vyraz)
