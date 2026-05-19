@@ -293,9 +293,14 @@ def profile(user_id):
                 photo = user.photo
                 my_book = SavedBook.query.filter_by(user_id=user_id).all()
                 if request.method == 'POST':
-                    user.photo = request.form.get('vybrany_avatar')
-                    db.session.commit()
-
+                    novy_avatar = request.form.get('vybrany_avatar')
+                    if novy_avatar:
+                        user.photo = novy_avatar
+                        db.session.commit()
+                        return redirect(url_for('profile', user_id=user_id))
+                    else:
+                        return redirect(url_for('profile', user_id=user_id))
+                    
     return render_template('profile.html', username = username, photo=photo, my_book = my_book)
 
 @app.route('/delete/<int:book_id>', methods=['GET', 'POST'])
@@ -348,7 +353,5 @@ def rec():
             url = f"https://www.googleapis.com/books/v1/volumes?q={hladany_vyraz}&key=AIzaSyD9Iow9WEZqUV4-h65XYSs6YHZ-LPfvT1w"
             response = requests.get(url)
             data = response.json()
-
-        
 
         return render_template('rec.html', knihy=data.get('items',[]), podla_knihy = hladany_vyraz)
