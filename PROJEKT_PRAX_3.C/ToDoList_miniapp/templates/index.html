@@ -9,28 +9,31 @@
             integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     </head>
 
-    <body style="background-color: #fbf0de;">
-        <nav class="navbar bg-body-tertiary  fixed-top" style="background-color: #eacaac !important;">
+    <body style="background-color: #fbf0de; padding-bottom: 120px;"> <nav class="navbar bg-body-tertiary fixed-top" style="background-color: #eacaac !important; height: 4rem;">
             <div class="container-fluid">
                 <a href="{{ url_for('login') }}">
                     <img src="{{ url_for('static', filename='img/stiahnuť.png') }}" alt="Ikona knihy" style="width: 50px;">
                 </a>
+                
                 <form class="d-flex" role="search" method="post" action="/hladaj">
                     <input class="form-control me-2 border border-dark focus-ring focus-ring-dark" style="background-color: #e2bd9bea !important;" type="text" placeholder="Search" aria-label="Search" name="kniha"/>
                     <button class="btn btn-outline-dark" type="submit">Search</button>
                 </form>
             </div>
         </nav>
+
         <p class="text-center fs-1 fw-bolder" style="font-family:'Pinyon Script', cursive; margin-top: 5rem;">Books of your dreams</p> 
-        <p class="text-center fs-6 fw-bolder  fw-bolder font-monospace">Every page is a new adventure</p>
+        <p class="text-center fs-6 fw-bolder font-monospace">Every page is a new adventure</p>
+        
         <hr class="fade-line my-4">
+        
         <div class="container mt-1 ">
             <ul class="nav justify-content-center d-flex justify-content-between">
                 <li class="nav-item font-monospace">
                     {% if 'logged_in' in session and session['logged_in'] %}
                         <a class="nav-link text-black text-opacity-100" href="{{ url_for('profile', user_id=session['user_id']) }}">Your books!</a>
                     {% else %}
-                        <a class="nav-link text-black text-opacity-100" href="{{ url_for('login') }}">Your books!</a>
+                        <a class="nav-link text-black text-opacity-100" href="">Your books!</a>
                     {% endif %}
                 </li>
                 <li class="nav-item font-monospace">
@@ -40,62 +43,208 @@
                     <a class="nav-link text-black text-opacity-50" href="{{ url_for('logout') }}">Logout</a>
                 </li>
                 <li class="nav-item font-monospace">
-                    <a class="nav-link text-black text-opacity-25" href="{{ url_for('rec') }}">recomment</a>
+                    <a class="nav-link text-black text-opacity-25" href="{{ url_for('rec') }}">recommend</a>
                 </li>
             </ul>
         </div>
+        
         <hr class="fade-line my-4">
-        <p class="text-center fs-2 fw-bolder font-monospace">You last read</p>
 
-        <div id="carouselExampleDark" class="carousel carousel-dark slide" style="padding-top: 5rem;">
-            <div class="carousel-inner rounded-3" style="width: 50rem; margin: auto;">
-                <div class="carousel-item active" data-bs-interval="10000">
-                <img src="{{ url_for('static', filename='img/lol.jpg') }}" class="d-block w-100" alt="Popis obrázka">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>First slide label</h5>
-                    <p>Some representative placeholder content for the first slide.</p>
+        <p class="text-center fs-2 fw-bolder font-monospace mt-5 mb-2">About the Creator</p>
+
+        
+            
+            <div class="d-flex justify-content-center align-items-end mx-auto position-relative" 
+                style="max-width: 550px; height: 260px; border-bottom: 5px solid #d4a373; padding-bottom: 3px; background: radial-gradient(circle at bottom, rgba(234,202,172,0.1) 0%, rgba(0,0,0,0) 70%); margin-bottom: 0px;">
+                
+                <div class="d-flex flex-column align-items-center justify-content-between text-uppercase fw-bold shadow rounded-top position-relative" 
+                    style="background-color: #6c584c; width: 55px; height: 210px; color: #fbf0de; font-size: 0.75rem; margin-right: 4px; padding: 15px 0;">
+                    <div style="width: 80%; height: 2px; background-color: #eacaac; opacity: 0.5;"></div>
+                    <div style="writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: 1px;">TOLKIEN</div>
+                    <div style="width: 80%; height: 2px; background-color: #eacaac; opacity: 0.5;"></div>
                 </div>
+                
+                <div class="d-flex align-items-center justify-content-center text-uppercase fw-bold shadow rounded-top" 
+                    style="background-color: #e1b58f; width: 38px; height: 230px; writing-mode: vertical-rl; transform: rotate(180deg); color: #6c584c; font-size: 0.8rem; margin-right: 4px; border-left: 2px solid rgba(255,255,255,0.2);">
+                    ORWELL
                 </div>
-                <div class="carousel-item" data-bs-interval="2000">
-                <img src="..." class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Second slide label</h5>
-                    <p>Some representative placeholder content for the second slide.</p>
+                
+                <div class="d-flex flex-column align-items-center justify-content-center text-uppercase fw-bold shadow rounded-top position-relative" 
+                    style="background-color: #c38e70; width: 42px; height: 185px; writing-mode: vertical-rl; transform: rotate(180deg); color: #fbf0de; font-size: 0.75rem; margin-right: 4px; z-index: 2;">
+                    <div class="position-absolute" style="top: -8px; left: 15px; width: 8px; height: 12px; background-color: #6c584c; border-radius: 2px 2px 0 0;"></div>
+                    <span>KAFKA</span>
                 </div>
+
+                <div class="d-flex align-items-center justify-content-between text-uppercase fw-bold shadow-lg rounded-top position-relative" 
+                    style="background-color: #eddcd2; width: 65px; height: 220px; color: #6c584c; font-size: 0.85rem; margin-right: 4px; border-bottom: 4px solid #6c584c; z-index: 3; transform: scale(1.02); box-shadow: 5px 0 15px rgba(0,0,0,0.15)!important;">
+                    <div style="width: 4px; height: 100%; background-color: rgba(0,0,0,0.05);"></div>
+                    <div style="writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: 2px; font-weight: 900;">MURAKAMI</div>
+                    <div style="width: 4px; height: 100%; background-color: rgba(255,255,255,0.4);"></div>
                 </div>
-                <div class="carousel-item">
-                <img src="..." class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Third slide label</h5>
-                    <p>Some representative placeholder content for the third slide.</p>
-                </div>
+                
+                <div class="d-flex align-items-center justify-content-center text-uppercase fw-bold shadow rounded-top" 
+                    style="background-color: #eacaac; width: 48px; height: 160px; writing-mode: vertical-rl; transform: rotate(180deg); color: #6c584c; font-size: 0.7rem; margin-right: 2px;">
+                    WOOLF
                 </div>
             </div>
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
         </div>
-        
-        
+
+        <div class="blur-area">
+            <div class="card mx-auto mb-5 rounded-3 shadow-sm" style="max-width: 35rem; background-color: #f5dfca; border: 1px solid #eacaac; margin-top: 0px;">
+                <div class="row g-0 align-items-center">
+                    <div class="col-md-4 text-center p-3">
+                        <img src="{{ url_for('static', filename='img/avatar.png') }}" class="img-fluid rounded-circle border border-2 border-dark" alt="Developer photo" style="width: 120px; height: 120px; object-fit: cover;">
+                    </div>
+                    
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title font-monospace fw-bold">HI I am Bubble!</h5>
+                            <p class="card-text text-muted" style="font-size: 0.95rem;">
+                                Welcome to my dream world of books. I created this website for all passionate readers who are looking for their next unforgettable story. When I'm not coding, I'm probably leafing through a good sci-fi detective novel.
+                            </p>
+                            <p class="card-text">
+                                <small class="text-body-secondary font-monospace">Lead Developer & Bookworm</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container my-5 text-center" style="margin-bottom: 6rem !important;">
+            
+            
+            <div class="position-relative mx-auto overflow-hidden shadow-lg rounded-3" 
+                id="library-canvas"
+                style="max-width: 700px; height: 450px; background-color: #3d2f26; border: 12px solid #523f33;">
+                
+                <div class="w-100 h-100 d-flex flex-column justify-content-between p-3 position-relative" style="z-index: 1;">
+                    
+                    <div class="d-flex align-items-end justify-content-around w-100" style="height: 110px; border-bottom: 8px solid #523f33;">
+                        <div class="d-flex align-items-end">
+                            <div style="background-color: #8b5a2b; width: 16px; height: 90px; margin-right: 2px;"></div>
+                            <div style="background-color: #a0522d; width: 14px; height: 95px; margin-right: 2px;"></div>
+                            <div style="background-color: #4a3525; width: 18px; height: 85px; margin-right: 2px;"></div>
+                            <div style="background-color: #cd853f; width: 20px; height: 80px; margin-right: 2px; transform: rotate(8deg); transform-origin: bottom right;"></div>
+                        </div>
+                        <div class="d-flex flex-column align-items-center" style="margin-bottom: 2px;">
+                            <div style="background-color: #deb887; width: 70px; height: 15px; border-radius: 2px;"></div>
+                            <div style="background-color: #6c584c; width: 65px; height: 16px; border-radius: 2px;"></div>
+                            <div style="background-color: #d2b48c; width: 75px; height: 14px; border-radius: 2px;"></div>
+                            <div style="background-color: #8b5a2b; width: 80px; height: 18px; border-radius: 2px;"></div>
+                        </div>
+                        <div class="d-flex align-items-end">
+                            <div style="background-color: #4a3525; width: 18px; height: 100px; margin-right: 2px;"></div>
+                            <div style="background-color: #cd853f; width: 22px; height: 85px; margin-right: 2px;"></div>
+                            <div style="background-color: #e1b58f; width: 15px; height: 90px; margin-right: 2px;"></div>
+                            <div style="background-color: #a0522d; width: 19px; height: 95px; margin-right: 2px;"></div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-end justify-content-between w-100" style="height: 110px; border-bottom: 8px solid #523f33; padding: 0 30px;">
+                        <div class="d-flex align-items-end">
+                            <div style="background-color: #cd853f; width: 20px; height: 85px; margin-right: 2px;"></div>
+                            <div style="background-color: #8b5a2b; width: 18px; height: 90px; margin-right: 2px;"></div>
+                            <div style="background-color: #4a3525; width: 22px; height: 95px; margin-right: 2px;"></div>
+                            <div style="background-color: #deb887; width: 16px; height: 75px; margin-right: 2px;"></div>
+                        </div>
+                        <div class="d-flex flex-column align-items-center" style="margin-bottom: 2px;">
+                            <div style="background-color: #a0522d; width: 55px; height: 15px;"></div>
+                            <div style="background-color: #deb887; width: 60px; height: 17px;"></div>
+                        </div>
+                        <div class="d-flex align-items-end">
+                            <div style="background-color: #e1b58f; width: 18px; height: 80px; margin-right: 2px;"></div>
+                            <div style="background-color: #a0522d; width: 22px; height: 95px; margin-right: 2px;"></div>
+                            <div style="background-color: #4a3525; width: 15px; height: 100px; margin-right: 2px;"></div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-end justify-content-around w-100" style="height: 110px; border-bottom: 8px solid #523f33;">
+                        <div class="d-flex flex-column align-items-center" style="margin-bottom: 2px;">
+                            <div style="background-color: #4a3525; width: 60px; height: 14px;"></div>
+                            <div style="background-color: #cd853f; width: 65px; height: 16px;"></div>
+                            <div style="background-color: #8b5a2b; width: 70px; height: 18px;"></div>
+                        </div>
+                        <div class="d-flex align-items-end">
+                            <div style="background-color: #deb887; width: 20px; height: 90px; margin-right: 2px;"></div>
+                            <div style="background-color: #a0522d; width: 18px; height: 95px; margin-right: 2px; transform: rotate(-6deg); transform-origin: bottom left;"></div>
+                            <div style="background-color: #8b5a2b; width: 15px; height: 85px; margin-right: 2px;"></div>
+                            <div style="background-color: #e1b58f; width: 19px; height: 92px; margin-right: 2px;"></div>
+                            <div style="background-color: #4a3525; width: 22px; height: 80px; margin-right: 2px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="interactive-ladder" 
+                    class="position-absolute h-100 d-flex justify-content-center" 
+                    style="width: 80px; top: 0; left: 45%; z-index: 10; pointer-events: none; transition: left 0.1s ease-out;">
+                    
+                    <div class="position-absolute h-100 w-100 d-flex justify-content-between" style="padding: 0 15px;">
+                        <div style="width: 6px; height: 100%; background-color: #d4a373; box-shadow: 2px 0 5px rgba(0,0,0,0.4);"></div>
+                        <div style="width: 6px; height: 100%; background-color: #d4a373; box-shadow: -2px 0 5px rgba(0,0,0,0.4);"></div>
+                        
+                        <div class="position-absolute w-100 h-100 d-flex flex-column justify-content-between py-4" style="left:0; padding: 0 15px;">
+                            <div style="height: 4px; background-color: #d4a373; w-100"></div><div style="height: 4px; background-color: #d4a373; w-100"></div>
+                            <div style="height: 4px; background-color: #d4a373; w-100"></div><div style="height: 4px; background-color: #d4a373; w-100"></div>
+                            <div style="height: 4px; background-color: #d4a373; w-100"></div><div style="height: 4px; background-color: #d4a373; w-100"></div>
+                            <div style="height: 4px; background-color: #d4a373; w-100"></div><div style="height: 4px; background-color: #d4a373; w-100"></div>
+                        </div>
+                    </div>
+
+                    <div id="librarian" class="position-absolute d-flex flex-column align-items-center" 
+                        style="bottom: 120px; width: 60px; height: 130px; transition: bottom 0.2s ease-out;">
+                        <div class="rounded-circle" style="width: 24px; height: 24px; background-color: #ffdbac; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></div>
+                        <div class="rounded-top-4 position-relative" style="width: 32px; height: 55px; background-color: #6c584c; margin-top: 2px;">
+                            <div class="position-absolute bg-warning rounded-1 shadow-sm" style="width: 14px; height: 18px; right: -8px; top: 15px; transform: rotate(15deg); border-left: 3px solid #fbf0de;"></div>
+                        </div>
+                        <div class="d-flex justify-content-between" style="width: 22px; height: 50px;">
+                            <div style="width: 8px; height: 100%; background-color: #4a3525; border-radius: 0 0 2px 2px;"></div>
+                            <div style="width: 8px; height: 100%; background-color: #4a3525; border-radius: 0 0 2px 2px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-100 py-2 overflow-hidden font-monospace" 
+            style="background-color: #eacaac; border-top: 1px solid rgba(108,88,76,0.3); border-bottom: 1px solid rgba(108,88,76,0.3); box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); margin-bottom: -2rem;">
+            <marquee scrollamount="4" class="text-uppercase fw-bold" style="letter-spacing: 4px; font-size: 0.8rem; color: #6c584c;">
+                escape into reality • read more books • temporary loss of reality • lost in layers • coffee & poetry • chapter after chapter • dream big • escape into reality • read more books
+            </marquee>
+        </div>
+
         {% block content %}{% endblock %}
-        <footer class="py-4 mt-6 text-center " style="background-color: #eacaac;">
+
+        <footer class="py-4 text-center fixed-bottom" style="background-color: #eacaac; z-index: 100;">
             <a class="navbar-brand font-monospace"> Want to know more about us?</a><a class="btn font-monospace" href="{{ url_for('contact') }}">Click here!</a>
         </footer>
+
+        <script>
+            document.getElementById('library-canvas').addEventListener('mousemove', function(e) {
+                const canvas = this.getBoundingClientRect();
+                const ladder = document.getElementById('interactive-ladder');
+                const librarian = document.getElementById('librarian');
+                
+                let mouseX = e.clientX - canvas.left;
+                let percentX = (mouseX / canvas.width) * 100;
+                
+                if (percentX < 5) percentX = 5;
+                if (percentX > 85) percentX = 85;
+                
+                ladder.style.left = percentX + '%';
+                
+                let mouseY = e.clientY - canvas.top;
+                let invertedY = canvas.height - mouseY; 
+                
+                if (invertedY < 40) invertedY = 40;
+                if (invertedY > 280) invertedY = 280;
+                
+                librarian.style.bottom = invertedY + 'px';
+            });
+        </script>
+        
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
             crossorigin="anonymous"></script>
-        
-        
     </body>
-    
 </html>

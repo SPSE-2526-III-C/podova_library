@@ -21,7 +21,7 @@ poznámky
 • kontakt na email
 • responzívny dizajn (mobil, tablet) 
 ### Technológie: 
-• frontend: HTML, CSS, JavaScript (React / Vue) 
+• frontend: HTML, CSS(React / Vue) 
 • backend: Python (Flask / Django) alebo Node.js 
 • databáza: PostgreSQL / SQLite 
 • externé API (Google Books) 

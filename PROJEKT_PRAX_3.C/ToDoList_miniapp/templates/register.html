@@ -36,18 +36,17 @@
     
     </head>
     <body style="background-image: url('{{ url_for('static', filename='img/generated_image.jpg') }}'); ">
-        <nav class="navbar bg-body-tertiary fixed-top" style="background-color: #eacaac !important;">
+        <nav class="navbar bg-body-tertiary fixed-top" style="background-color: #eacaac !important; height: 4rem;">
             <div class="container-fluid">
                 <a href="{{ url_for('base') }}">
                     <img src="{{ url_for('static', filename='img/stiahnuť.png') }}" alt="Ikona knihy" style="width: 50px;">
                 </a>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2 border border-dark focus-ring focus-ring-dark" style="background-color: #e2bd9bea !important;" type="search" placeholder="Search" aria-label="Search"/>
-                    <button class="btn btn-outline-dark" type="submit">Search</button>
-                </form>
+                <h1 style="font-family: 'Brush Script MT', cursive; color: #c78547;">Books of your dreams</h1> 
+                <a class="btn btn-dark" href="{{ url_for('base') }}" role="button">Back</a>
+                
             </div>
         </nav>
-        <h1 class="text-center fs-1 fw-bolder" style="margin-top: 30px;">Register</h1>
+        <h1 class="text-align: center;" style="text-align: center; margin-top: 7rem; font-family: 'Pinyon Script', cursive; ">Register</h1>
         
         <div class="blur-area">
             <div class="card mx-auto mb-3 glass-card rounded-10  " style="width: 1000px;height: 500px; margin-top: 80px; border: none;">

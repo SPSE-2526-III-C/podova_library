@@ -70,47 +70,67 @@
             
                 <img src="{{ url_for('static', filename='img/stiahnuť.png') }}" alt="Ikona knihy" style="width: 50px;">
              
-            <h1>Books</h1> 
+            <h1 style="font-family: 'Brush Script MT', cursive; color: #c78547; text-align: center; position: absolute; left: 50%; transform: translateX(-50%); margin:0;" class="justify-content: center; display: flex; align-items: center;">Books of your dreams</h1> 
             <a class="btn btn-dark" href="{{ url_for('base') }}" role="button">Back</a>
         </div>
         
     </nav>
-    <h1 class="text-center fs-1 fw-bolder" style="margin-top: 5rem;">My_profile</h1>
+    <h1 class="text-center fs-1 fw-bolder" style="margin-top: 7rem;">My_profile</h1>
     <div class="blur-area">
-            <div class="card mx-auto mb-3 glass-card rounded-10 " style="width: 29rem;min-height: 25rem; margin-top: 80px; border: none;">
+            <div class="card mx-auto mb-3 glass-card rounded-10 " style="width: 29rem;min-height: 25rem; margin-top: 6rem; border: none;">
                 <div class="row g-0">
 
         
                 <div class="col-md- p-3 d-flex flex-column justify-content-center align-items-center">
                     <img src="{{ url_for('static', filename='profile_pics/'+photo) }}" class="card-img-top " style="border-radius: 50%; height: 10rem;width: 10rem;" alt="...">
-                    <form method="post">
-                        {%if photo%}
-                            <input type="radio" id="html" name="vybrany_avatar" value="default.jpg">
-                            <img src="{{ url_for('static', filename='profile_pics/default.jpg') }}" class="card-img-top " style="border-radius: 50%; height: 10rem;width: 10rem;" alt="...">
-                            <input type="radio" id="html" name="vybrany_avatar" value="default1.jpg">
-                            <img src="{{ url_for('static', filename='profile_pics/default1.jpg') }}" class="card-img-top " style="border-radius: 50%; height: 10rem;width: 10rem;" alt="...">
-                            <button type="submit" class="btn btn-primary mt-3">Uložiť fotku</button>
-                        {%else%}
-                            <img src="https://via.placeholder.com/150?text=No+Avatar" class="card-img-top" style="border-radius: 50%; height: 10rem; width: 10rem;" alt="...">
-                        {%endif%}
-                    </form >
-                        <h4 class="card-title">{{username}}</h4>
+                    <p>
+                        <a style="font-family: 'Pinyon Script', cursive;color: #c78547;" class="text-decoration-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+                            Choose your profile photo!
+                        </a>
+                    </p>
                     
-                    <h5 class="card-text" style>My books:</h5>
+                        <div class="collapse" id="collapseWidthExample">
+                            <form method="post">
+                                {%if photo%}
+
+                                    <input type="radio" id="html" name="vybrany_avatar" value="default.jpg">
+                                    <img src="{{ url_for('static', filename='profile_pics/default.jpg') }}" class="card-img-top " style="border-radius: 50%; height: 5rem;width: 5rem;" alt="...">
+                                    <input type="radio" id="html" name="vybrany_avatar" value="default1.jpg">
+                                    <img src="{{ url_for('static', filename='profile_pics/default1.jpg') }}" class="card-img-top " style="border-radius: 50%; height: 5rem;width: 5rem;" alt="...">
+                                    <input type="radio" id="html" name="vybrany_avatar" value="default1.jpg">
+                                    <img src="{{ url_for('static', filename='profile_pics/default1.jpg') }}" class="card-img-top " style="border-radius: 50%; height: 5rem;width: 5rem;" alt="...">
+                                    <div class="container d-flex justify-content-center">
+                                        <button type="submit" class="btn btn-dark  mt-2" style="font-family: 'Pinyon Script', cursive; ">Uložiť fotku</button>
+                                    </div>
+                                {%else%}
+                                    <img src="https://via.placeholder.com/150?text=No+Avatar" class="card-img-top" style="border-radius: 50%; height: 10rem; width: 10rem;" alt="...">
+                                {%endif%}
+                            </form >
+                        </div>
+                    
+                    <h1 class="card-title" style="font-family: 'Pinyon Script', cursive;">{{username}}</h1>
+                    
+                    <h6 class="card-text" style="margin-top: 2rem; font-family: 'Pinyon Script', cursive; color: #c78547;">My books:</h6>
 
                     {%for kniha in my_book%}
-                        <h5 class="text-center fs-1 fw-bolder" style="margin-bottom: rem; font-family: 'Pinyon Script', cursive;">
+                        <h5 class="text-center fs-1 fw-bolder" style="margin-top: 1rem; font-family: 'Pinyon Script', cursive;">
                             {{ kniha.book_title if kniha.book_title else "Book is unavailable" }}
                         </h5>
                         
                             <p>hodnotenie:{{kniha.rating}}</p>
                             <p>poznamky:{{kniha.notes}}</p>
                             <p>Stav:{{kniha.reading_status}}</p>
-                            <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#editForm-{{kniha.id}}">Change</button>
-
+                            <div class="container " style="display: flex; justify-content: center; align-items: center; font-family: 'Pinyon Script', cursive; ">
+                                <div class="row row-cols-2 row-cols-lg-5 g-6 g-lg-3 ">
+                                    <button class="btn btn-dark" type="button" data-bs-toggle="collapse" data-bs-target="#editForm-{{kniha.id}}" style="width: 10rem;">Change</button>
+                                    <form action="{{url_for ('delete', book_id=kniha.id)}}" method="post">
+                                        <button   class="btn btn-danger" type="submit" style="width: 10rem;">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
                             <div class="collapse" id="editForm-{{ kniha.id }}">
                                 <form  action="{{ url_for('update_book', book_id=kniha.id)}}" method="post">
-                                    <button class="btn btn-success" type="submit">Uložiť zmeny</button>
+                                    
                                     <div>
                                         <div class="rating">
                                             <input type="radio" id="star5-{{kniha.id}}" name="rating" value="5">
@@ -139,9 +159,7 @@
                                 </form>
                             </div>
                         
-                        <form action="{{url_for ('delete', book_id=kniha.id)}}" method="post">
-                            <button   class="btn btn-danger" type="submit">Delete</button>
-                        </form>
+                        
                     {%endfor%}
                 </div>
                 </div>

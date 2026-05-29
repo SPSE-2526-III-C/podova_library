@@ -165,7 +165,7 @@ def register():
             )
             db.session.add(new_user)
             db.session.commit()
-            flash("Registraision success! Please log in", "error")
+            flash("Registraision success! Please log in", "success")
             return redirect(url_for('login'))
         
     return render_template('register.html')
@@ -300,6 +300,8 @@ def profile(user_id):
                         return redirect(url_for('profile', user_id=user_id))
                     else:
                         return redirect(url_for('profile', user_id=user_id))
+   
+
                     
     return render_template('profile.html', username = username, photo=photo, my_book = my_book)
 
@@ -328,7 +330,7 @@ def update_book(book_id):
 def rec():
     TESTOVACI_REZIM = False
     if not 'logged_in' in session:
-        flash("Invalid request. Please log in first")
+        flash("Invalid request. Please log in first", 'error')
         return redirect(url_for('login'))
     
     if 'logged_in' in session:
