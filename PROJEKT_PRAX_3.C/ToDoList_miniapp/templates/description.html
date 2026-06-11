@@ -89,7 +89,7 @@
                     <div class="col-md-8">
                         <div class="card-body">
                             <p style="color: rgb(147, 71, 13);">Author:</p>
-                            <h4 style="margin-left: 30px; margin-top: -10px;">{{ kniha.volumeInfo.authors | join(', ') if kniha.volumeInfo.authors else "Neznámy autor" }}</h4>
+                            <h4 style="margin-left: 30px; margin-top: -10px;">{{ kniha.volumeInfo.authors | join(', ') if kniha.volumeInfo.authors else "Unknown Author" }}</h4>
                             <p style="margin-top: 20px; color: rgb(147, 71, 13);">Description:</p>
                             <h6 style="margin-left: 30px; margin-top: -10px;">{{ kniha.volumeInfo.description if kniha.volumeInfo.description }}</h6>
                         </div>
@@ -106,8 +106,8 @@
             </form>
         {% else %}
             <div class="text-center mt-5">
-                <h3>Detaily o knihe nie sú dostupné</h3>
-                <a href="{{ url_for('rec') }}" class="btn btn-primary">Späť na odporúčania</a>
+                <h3>Book details not available</h3>
+                <a href="{{ url_for('rec') }}" class="btn btn-primary">Back to recommendations</a>
             </div>
         {% endif %}
     </div>
