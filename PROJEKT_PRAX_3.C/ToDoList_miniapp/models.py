@@ -8,8 +8,7 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True)
     email = db.Column(db.String(80), unique=True)
     password = db.Column(db.String(80))
-    photo = db.Column(db.String(80), default= 'default.jpg')
-
+    photo = db.Column(db.String(300), default="Facebook_ Thiên Nhai Hải Giác - 天涯海角 save = follow 💞_.jpg")
     def __init__(self, username, email, password):
         self.username = username
         self.email = email

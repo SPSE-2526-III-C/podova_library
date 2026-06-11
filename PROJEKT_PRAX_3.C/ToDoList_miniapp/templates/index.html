@@ -5,24 +5,78 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}books_ofyourdreams{% endblock %}</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+            
+        <style>
+            @media (max-width: 768px) {
+                .navbar {
+                    height: auto !important;
+                    min-height: 4rem;
+                    padding-bottom: 0.5rem !important;
+                }
+                .navbar .container-fluid {
+                    flex-wrap: nowrap !important;
+                    gap: 10px;
+                }
+                .navbar form {
+                    max-width: 70%;
+                }
+                body > p.text-center.fs-1 {
+                    margin-top: 6.5rem !important;
+                }
+                .nav.justify-content-center {
+                    flex-direction: column !important;
+                    align-items: center !important;
+                    text-align: center !important;
+                    gap: 8px;
+                }
+
+                #library-canvas {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    height: auto !important;
+                    aspect-ratio: 700 / 450 !important;
+                }
+                #library-canvas > .w-100 {
+                    height: 100% !important;
+                }
+
+                
+                #interactive-ladder {
+                    left: 50% !important; 
+                }
+                #librarian {
+                    bottom: 120px !important; 
+                }
+
+                body {
+                    padding-bottom: 160px !important;
+                }
+                footer.fixed-bottom {
+                    position: fixed !important;
+                    bottom: 0 !important;
+                    width: 100% !important;
+                }
+                
+            }
+        </style>
     </head>
 
-    <body style="background-color: #fbf0de; padding-bottom: 120px;"> <nav class="navbar bg-body-tertiary fixed-top" style="background-color: #eacaac !important; height: 4rem;">
+    <body style="background-color: #fbf0de; padding-bottom: 120px;" > 
+        <nav class="navbar bg-body-tertiary fixed-top" style="background-color: #eacaac !important; height: 4rem;">
             <div class="container-fluid">
-                <a href="{{ url_for('login') }}">
+                <a >
                     <img src="{{ url_for('static', filename='img/stiahnuť.png') }}" alt="Ikona knihy" style="width: 50px;">
                 </a>
                 
                 <form class="d-flex" role="search" method="post" action="/hladaj">
-                    <input class="form-control me-2 border border-dark focus-ring focus-ring-dark" style="background-color: #e2bd9bea !important;" type="text" placeholder="Search" aria-label="Search" name="kniha"/>
-                    <button class="btn btn-outline-dark" type="submit">Search</button>
+                    <input class="form-control me-2 border border-dark focus-ring focus-ring-dark" style="background-color: #e2bd9bea !important;font-family: 'Pinyon Script', cursive;" type="text" placeholder="Search" aria-label="Search" name="kniha"/>
+                    <button class="btn btn-outline-dark" style="font-family: 'Pinyon Script', cursive;" type="submit">Search</button>
                 </form>
             </div>
         </nav>
 
-        <p class="text-center fs-1 fw-bolder" style="font-family:'Pinyon Script', cursive; margin-top: 5rem;">Books of your dreams</p> 
+        <p class="text-center fs-1 fw-bolder" style="font-family:'Pinyon Script', cursive; margin-top: 5rem;">Books of Your Dreams</p> 
         <p class="text-center fs-6 fw-bolder font-monospace">Every page is a new adventure</p>
         
         <hr class="fade-line my-4">
@@ -31,61 +85,58 @@
             <ul class="nav justify-content-center d-flex justify-content-between">
                 <li class="nav-item font-monospace">
                     {% if 'logged_in' in session and session['logged_in'] %}
-                        <a class="nav-link text-black text-opacity-100" href="{{ url_for('profile', user_id=session['user_id']) }}">Your books!</a>
+                        <a class="nav-link text-black text-opacity-100" href="{{ url_for('profile', user_id=session['user_id']) }}" style="font-family: 'Pinyon Script', cursive;">Your books!</a>
                     {% else %}
-                        <a class="nav-link text-black text-opacity-100" href="">Your books!</a>
+                        <a class="nav-link text-black text-opacity-100" href="" style="font-family: 'Pinyon Script', cursive;">Your books!</a>
                     {% endif %}
                 </li>
                 <li class="nav-item font-monospace">
-                    <a class="nav-link text-black text-opacity-75" href="{{ url_for('login') }}">Login</a>
+                    <a class="nav-link text-black text-opacity-75" href="{{ url_for('login') }}" style="font-family: 'Pinyon Script', cursive;">Login</a>
                 </li>
                 <li class="nav-item font-monospace">
-                    <a class="nav-link text-black text-opacity-50" href="{{ url_for('logout') }}">Logout</a>
+                    <a class="nav-link text-black text-opacity-50" href="{{ url_for('logout') }}" style="font-family: 'Pinyon Script', cursive;">Logout</a>
                 </li>
                 <li class="nav-item font-monospace">
-                    <a class="nav-link text-black text-opacity-25" href="{{ url_for('rec') }}">recommend</a>
+                    <a class="nav-link text-black text-opacity-25" href="{{ url_for('rec') }}" style="font-family: 'Pinyon Script', cursive;">Recommend</a>
                 </li>
             </ul>
         </div>
         
         <hr class="fade-line my-4">
 
-        <p class="text-center fs-2 fw-bolder font-monospace mt-5 mb-2">About the Creator</p>
+        <p class="text-center fs-2 fw-bolder  mt-5 mb-2" style="font-family: 'Pinyon Script', cursive;">About the Creator</p>
 
-        
+        <div class="d-flex justify-content-center align-items-end mx-auto position-relative" 
+            style="max-width: 550px; height: 260px; border-bottom: 5px solid #d4a373; padding-bottom: 3px; background: radial-gradient(circle at bottom, rgba(234,202,172,0.1) 0%, rgba(0,0,0,0) 70%); margin-bottom: 0px;">
             
-            <div class="d-flex justify-content-center align-items-end mx-auto position-relative" 
-                style="max-width: 550px; height: 260px; border-bottom: 5px solid #d4a373; padding-bottom: 3px; background: radial-gradient(circle at bottom, rgba(234,202,172,0.1) 0%, rgba(0,0,0,0) 70%); margin-bottom: 0px;">
-                
-                <div class="d-flex flex-column align-items-center justify-content-between text-uppercase fw-bold shadow rounded-top position-relative" 
-                    style="background-color: #6c584c; width: 55px; height: 210px; color: #fbf0de; font-size: 0.75rem; margin-right: 4px; padding: 15px 0;">
-                    <div style="width: 80%; height: 2px; background-color: #eacaac; opacity: 0.5;"></div>
-                    <div style="writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: 1px;">TOLKIEN</div>
-                    <div style="width: 80%; height: 2px; background-color: #eacaac; opacity: 0.5;"></div>
-                </div>
-                
-                <div class="d-flex align-items-center justify-content-center text-uppercase fw-bold shadow rounded-top" 
-                    style="background-color: #e1b58f; width: 38px; height: 230px; writing-mode: vertical-rl; transform: rotate(180deg); color: #6c584c; font-size: 0.8rem; margin-right: 4px; border-left: 2px solid rgba(255,255,255,0.2);">
-                    ORWELL
-                </div>
-                
-                <div class="d-flex flex-column align-items-center justify-content-center text-uppercase fw-bold shadow rounded-top position-relative" 
-                    style="background-color: #c38e70; width: 42px; height: 185px; writing-mode: vertical-rl; transform: rotate(180deg); color: #fbf0de; font-size: 0.75rem; margin-right: 4px; z-index: 2;">
-                    <div class="position-absolute" style="top: -8px; left: 15px; width: 8px; height: 12px; background-color: #6c584c; border-radius: 2px 2px 0 0;"></div>
-                    <span>KAFKA</span>
-                </div>
+            <div class="d-flex flex-column align-items-center justify-content-between text-uppercase fw-bold shadow rounded-top position-relative" 
+                style="background-color: #6c584c; width: 55px; height: 210px; color: #fbf0de; font-size: 0.75rem; margin-right: 4px; padding: 15px 0;">
+                <div style="width: 80%; height: 2px; background-color: #eacaac; opacity: 0.5;"></div>
+                <div style="writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: 1px;">TOLKIEN</div>
+                <div style="width: 80%; height: 2px; background-color: #eacaac; opacity: 0.5;"></div>
+            </div>
+            
+            <div class="d-flex align-items-center justify-content-center text-uppercase fw-bold shadow rounded-top" 
+                style="background-color: #e1b58f; width: 38px; height: 230px; writing-mode: vertical-rl; transform: rotate(180deg); color: #6c584c; font-size: 0.8rem; margin-right: 4px; border-left: 2px solid rgba(255,255,255,0.2);">
+                ORWELL
+            </div>
+            
+            <div class="d-flex flex-column align-items-center justify-content-center text-uppercase fw-bold shadow rounded-top position-relative" 
+                style="background-color: #c38e70; width: 42px; height: 185px; writing-mode: vertical-rl; transform: rotate(180deg); color: #fbf0de; font-size: 0.75rem; margin-right: 4px; z-index: 2;">
+                <div class="position-absolute" style="top: -8px; left: 15px; width: 8px; height: 12px; background-color: #6c584c; border-radius: 2px 2px 0 0;"></div>
+                <span>KAFKA</span>
+            </div>
 
-                <div class="d-flex align-items-center justify-content-between text-uppercase fw-bold shadow-lg rounded-top position-relative" 
-                    style="background-color: #eddcd2; width: 65px; height: 220px; color: #6c584c; font-size: 0.85rem; margin-right: 4px; border-bottom: 4px solid #6c584c; z-index: 3; transform: scale(1.02); box-shadow: 5px 0 15px rgba(0,0,0,0.15)!important;">
-                    <div style="width: 4px; height: 100%; background-color: rgba(0,0,0,0.05);"></div>
-                    <div style="writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: 2px; font-weight: 900;">MURAKAMI</div>
-                    <div style="width: 4px; height: 100%; background-color: rgba(255,255,255,0.4);"></div>
-                </div>
-                
-                <div class="d-flex align-items-center justify-content-center text-uppercase fw-bold shadow rounded-top" 
-                    style="background-color: #eacaac; width: 48px; height: 160px; writing-mode: vertical-rl; transform: rotate(180deg); color: #6c584c; font-size: 0.7rem; margin-right: 2px;">
-                    WOOLF
-                </div>
+            <div class="d-flex align-items-center justify-content-between text-uppercase fw-bold shadow-lg rounded-top position-relative" 
+                style="background-color: #eddcd2; width: 65px; height: 220px; color: #6c584c; font-size: 0.85rem; margin-right: 4px; border-bottom: 4px solid #6c584c; z-index: 3; transform: scale(1.02); box-shadow: 5px 0 15px rgba(0,0,0,0.15)!important;">
+                <div style="width: 4px; height: 100%; background-color: rgba(0,0,0,0.05);"></div>
+                <div style="writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: 2px; font-weight: 900;">MURAKAMI</div>
+                <div style="width: 4px; height: 100%; background-color: rgba(255,255,255,0.4);"></div>
+            </div>
+            
+            <div class="d-flex align-items-center justify-content-center text-uppercase fw-bold shadow rounded-top" 
+                style="background-color: #eacaac; width: 48px; height: 160px; writing-mode: vertical-rl; transform: rotate(180deg); color: #6c584c; font-size: 0.7rem; margin-right: 2px;">
+                WOOLF
             </div>
         </div>
 
@@ -93,17 +144,17 @@
             <div class="card mx-auto mb-5 rounded-3 shadow-sm" style="max-width: 35rem; background-color: #f5dfca; border: 1px solid #eacaac; margin-top: 0px;">
                 <div class="row g-0 align-items-center">
                     <div class="col-md-4 text-center p-3">
-                        <img src="{{ url_for('static', filename='img/avatar.png') }}" class="img-fluid rounded-circle border border-2 border-dark" alt="Developer photo" style="width: 120px; height: 120px; object-fit: cover;">
+                        <img src="{{ url_for('static', filename='img/gatito ❤️.jpg') }}" class="img-fluid rounded-circle border border-2 border-dark" alt="Developer photo" style="width: 120px; height: 120px; object-fit: cover;">
                     </div>
                     
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title font-monospace fw-bold">HI I am Bubble!</h5>
-                            <p class="card-text text-muted" style="font-size: 0.95rem;">
+                            <h5 class="card-title fw-bold" style="font-family: 'Pinyon Script', cursive;">HI I am Bubble!</h5>
+                            <p class="card-text text-muted" style="font-size: 0.95rem;font-family: 'Pinyon Script', cursive;">
                                 Welcome to my dream world of books. I created this website for all passionate readers who are looking for their next unforgettable story. When I'm not coding, I'm probably leafing through a good sci-fi detective novel.
                             </p>
                             <p class="card-text">
-                                <small class="text-body-secondary font-monospace">Lead Developer & Bookworm</small>
+                                <small class="text-body-secondary " style="font-family: 'Pinyon Script', cursive;">Lead Developer & Bookworm</small>
                             </p>
                         </div>
                     </div>
@@ -112,8 +163,6 @@
         </div>
 
         <div class="container my-5 text-center" style="margin-bottom: 6rem !important;">
-            
-            
             <div class="position-relative mx-auto overflow-hidden shadow-lg rounded-3" 
                 id="library-canvas"
                 style="max-width: 700px; height: 450px; background-color: #3d2f26; border: 12px solid #523f33;">
@@ -206,45 +255,75 @@
             </div>
         </div>
 
-        <div class="w-100 py-2 overflow-hidden font-monospace" 
+        <div class="w-100 py-2 overflow-hidden" 
             style="background-color: #eacaac; border-top: 1px solid rgba(108,88,76,0.3); border-bottom: 1px solid rgba(108,88,76,0.3); box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); margin-bottom: -2rem;">
-            <marquee scrollamount="4" class="text-uppercase fw-bold" style="letter-spacing: 4px; font-size: 0.8rem; color: #6c584c;">
-                escape into reality • read more books • temporary loss of reality • lost in layers • coffee & poetry • chapter after chapter • dream big • escape into reality • read more books
-            </marquee>
+            
+            <style>
+                @keyframes nekonecnyPosun {
+                    0% { transform: translate3d(0, 0, 0); }
+                    100% { transform: translate3d(-50%, 0, 0); }
+                }
+                .beziaci-pas {
+                    display: flex;
+                    width: max-content;
+                    animation: nekonecnyPosun 80s linear infinite;
+                }
+                .beziaci-text {
+                    font-family: 'Courier New', Courier, monospace; 
+                    font-size: 0.85rem;
+                    font-weight: bold;
+                    color: #6c584c;
+                    letter-spacing: 4px;
+                    text-transform: uppercase;
+                    white-space: nowrap;
+                    padding-right: 2rem;
+                }
+            </style>
+
+            <div class="beziaci-pas">
+                <span class="beziaci-text">
+                    escape into reality • read more books • temporary loss of reality • lost in layers • coffee & poetry • chapter after chapter • dream big • escape into reality • read more books •&nbsp;
+                </span>
+                <span class="beziaci-text" aria-hidden="true">
+                    escape into reality • read more books • temporary loss of reality • lost in layers • coffee & poetry • chapter after chapter • dream big • escape into reality • read more books •&nbsp;
+                </span>
+            </div>
         </div>
 
         {% block content %}{% endblock %}
 
-        <footer class="py-4 text-center fixed-bottom" style="background-color: #eacaac; z-index: 100;">
-            <a class="navbar-brand font-monospace"> Want to know more about us?</a><a class="btn font-monospace" href="{{ url_for('contact') }}">Click here!</a>
+        <footer class="py-4 text-center fixed-bottom" style="background-color: #eacaac; width: 100%;" >
+            <a class="navbar-brand font-monospace"> Want to know more about us?</a>
+            <a class="btn font-monospace" href="{{ url_for('contact') }}">Click here!</a>
         </footer>
 
         <script>
+            
             document.getElementById('library-canvas').addEventListener('mousemove', function(e) {
-                const canvas = this.getBoundingClientRect();
-                const ladder = document.getElementById('interactive-ladder');
-                const librarian = document.getElementById('librarian');
-                
-                let mouseX = e.clientX - canvas.left;
-                let percentX = (mouseX / canvas.width) * 100;
-                
-                if (percentX < 5) percentX = 5;
-                if (percentX > 85) percentX = 85;
-                
-                ladder.style.left = percentX + '%';
-                
-                let mouseY = e.clientY - canvas.top;
-                let invertedY = canvas.height - mouseY; 
-                
-                if (invertedY < 40) invertedY = 40;
-                if (invertedY > 280) invertedY = 280;
-                
-                librarian.style.bottom = invertedY + 'px';
+                if (window.innerWidth > 768) {
+                    const canvas = this.getBoundingClientRect();
+                    const ladder = document.getElementById('interactive-ladder');
+                    const librarian = document.getElementById('librarian');
+                    
+                    let mouseX = e.clientX - canvas.left;
+                    let percentX = (mouseX / canvas.width) * 100;
+                    
+                    if (percentX < 5) percentX = 5;
+                    if (percentX > 85) percentX = 85;
+                    
+                    ladder.style.left = percentX + '%';
+                    
+                    let mouseY = e.clientY - canvas.top;
+                    let invertedY = canvas.height - mouseY; 
+                    
+                    if (invertedY < 40) invertedY = 40;
+                    if (invertedY > 280) invertedY = 280;
+                    
+                    librarian.style.bottom = invertedY + 'px';
+                }
             });
         </script>
         
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>

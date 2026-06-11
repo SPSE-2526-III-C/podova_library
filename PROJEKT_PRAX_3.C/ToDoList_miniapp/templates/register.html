@@ -5,121 +5,205 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}{% endblock %}</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        
         <style>
-            /* Toto rozmaže pozadie iba pod kartou, navbar zostane nedotknutý */
-            .glass-card {
-                /* rgba(255, 255, 255, 0.4) je polopriehľadná biela */
-                background-color: rgba(255, 255, 255, 0.4) !important; 
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
+            
+            html, body {
+                height: 100%;
+                min-height: 100dvh;
+                margin: 0;
+                padding: 0;
+                overflow: hidden; 
             }
 
-            /* Fixácia pozadia, aby sa pri skrolovaní nehýbalo */
             body {
+                display: flex;
+                flex-direction: column;
                 background-attachment: fixed;
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
             }
+
             
-            /* Zabezpečíme, aby navbar mal svoju pevnú farbu a nebol ovplyvnený */
+            .main-scroll-container {
+                flex: 1 1 auto;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                padding-top: 5rem; 
+                
+                
+                padding-bottom: 90px !important; 
+            }
+
+            
             .navbar {
+                flex-shrink: 0;
                 backdrop-filter: none !important;
                 -webkit-backdrop-filter: none !important;
             }
+
+            
+            .always-visible-footer {
+                position: fixed !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100% !important;
+                height: 90px; 
+                z-index: 1030;
+                background-color: #eacaac !important;
+                flex-shrink: 0;
+            }
+
+            
+            .glass-card {
+                background-color: rgba(255, 255, 255, 0.4) !important; 
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+            }
+            
             .flash { padding: 10px; margin: 10px 0; border-radius: 5px; }
-            .success { background-color: #d4edda; color: #155724; }
-            .error { background-color: #f8d7da; color: #721c24;  width: 450px; border-radius: 10px; text-align: center; margin: 20px auto; }
+            .success { background-color: #d4edda; color: #155724; width: 450px; border-radius: 10px; text-align: center; margin: 20px auto; }
+            .error { background-color: #f8d7da; color: #721c24; width: 450px; border-radius: 10px; text-align: center; margin: 20px auto; }
+
+            /* RESPONZÍVNY DIZAJN*/
+            @media (max-width: 992px) {
+                .main-scroll-container {
+                    
+                    padding-bottom: 125px !important; 
+                }
+
+                .always-visible-footer {
+                    height: 120px; 
+                }
+
+                .main-register-card {
+                    width: 92% !important;
+                    height: auto !important;
+                    margin-top: 10px !important;
+                    padding: 15px !important;
+                }
+
+                .inner-form-card {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    margin-left: 0 !important;
+                    margin-top: 15px !important;
+                    margin-bottom: 15px !important;
+                }
+
+                form, .mb-2, .input-group, form button {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                }
+
+                .main-register-card h1, .main-register-card p {
+                    padding-left: 0 !important;
+                    padding-top: 10px !important;
+                    text-align: center;
+                }
+                
+                .main-register-card .btn-dark {
+                    margin-left: auto !important;
+                    margin-right: auto !important;
+                    display: block;
+                }
+
+                .success, .error {
+                    width: 92% !important;
+                }
+            }
         </style>
     
     </head>
-    <body style="background-image: url('{{ url_for('static', filename='img/generated_image.jpg') }}'); ">
-        <nav class="navbar bg-body-tertiary fixed-top" style="background-color: #eacaac !important; height: 4rem;">
-            <div class="container-fluid">
-                <a href="{{ url_for('base') }}">
-                    <img src="{{ url_for('static', filename='img/stiahnuť.png') }}" alt="Ikona knihy" style="width: 50px;">
-                </a>
-                <h1 style="font-family: 'Brush Script MT', cursive; color: #c78547;">Books of your dreams</h1> 
-                <a class="btn btn-dark" href="{{ url_for('base') }}" role="button">Back</a>
-                
-            </div>
-        </nav>
-        <h1 class="text-align: center;" style="text-align: center; margin-top: 7rem; font-family: 'Pinyon Script', cursive; ">Register</h1>
+    <body style="background-image: url('{{ url_for('static', filename='img/generated_image.jpg') }}');">
         
-        <div class="blur-area">
-            <div class="card mx-auto mb-3 glass-card rounded-10  " style="width: 1000px;height: 500px; margin-top: 80px; border: none;">
-                <div class="row g-0">
-
-
-            <div class="col-md-6 p-3">
-                <h1 class="card-title font-monospace" style="padding-top: 70px;padding-left: 30px;">Welcome!</h1>
-                <p class="card-text font-monospace" style="padding-top: 60px; padding-left: 30px;">
-                    Welcome to our Library application! This is your personal space to organize and manage your books efficiently. Whether you have a busy day or just want to keep track of your daily reading activity, our app is here to help you stay on top of things. Create, edit, and prioritize your books with ease, and enjoy a more beautiful day!</p>
-                <a class="btn btn-dark font-monospace" style=" width: 150px;border-radius: 20px; margin-top: 30px; margin-left: 30px;" href="{{ url_for('contact') }}">Contact Us</a>
-                
-
-            </div>
-
-            <div class="card col-md-6 p-3 glass-card" style="border: 30px; width: 350px; margin-top: 50px;; margin-left: 60px;margin-bottom: 20px; border: none;">
-                <form action="/register" method="post" id="login-form" class="form">
-                    <div class="input-group mb-4 font-monospace" style=" margin-top: 10px; width: 300px;">
-                        
-                        <label>Username</label>
-                        <input type="text" name="username" class="form-control-plaintext border-bottom border-dark" placeholder="hubble_bubble">
-                    </div>
-                    <div class="input-group mb-4 font-monospace" style=" margin-top: 0px; width: 300px;">
-                        
-                        <label>Email</label>
-                        <input type="text" name="email" class="form-control-plaintext border-bottom border-dark" placeholder="bibi@gmail.com">
-                    </div>
-
-
-                    <div class="mb-2 font-monospace" style=" margin-top: px; width: 300px;">
-                        
-                        <label>Password</label>
-                        <input type="text" name="password" class="form-control-plaintext border-bottom border-dark" placeholder="hi123">
-                    </div>
-                    
-
-
-                    <button class="btn btn-dark font-monospace" style=" width: 300px;border-radius: 20px; margin-top: 30px;">Sign Up</button>
-                      
-
-                </form>
-                <div class="container" style="padding-top: 20px; text-align: center;">
-                    <a href="https://www.instagram.com/bibi_poda_369/?__pwa=1" target="_blank" rel="noopener noreferrer" style="color: black;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
-                            <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
-                        </svg>
+        <nav class="navbar bg-body-tertiary fixed-top" style="background-color: #eacaac !important; height: 4rem;">
+                <div class="container-fluid d-flex align-items-center justify-content-between flex-nowrap">
+                    <a >
+                        <img src="{{ url_for('static', filename='img/stiahnuť.png') }}" alt="Ikona knihy" style="width: 50px;">
                     </a>
-                    <svg xmlns="" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16" style="margin-left: 20px;">
-                        <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
-                    </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter-x" viewBox="0 0 16 16" style="margin-left: 20px;">
-                        <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
-                    </svg>
                     
+                    <a class="btn btn-dark" href="{{ url_for('base') }}" role="button"style="font-family: 'Pinyon Script', cursive;">Back</a>
+                </div>
+        </nav>
+
+        <div class="main-scroll-container">
+
+            <h1 style="text-align: center; margin-top: 1rem; font-family: 'Pinyon Script', cursive;">Register</h1>
+            
+            <div class="blur-area">
+                <div class="card mx-auto mb-3 glass-card rounded-10 main-register-card" style="width: 1000px; margin-top: 20px; border: none;">
+                    <div class="row g-0 align-items-center p-3">
+
+                        <div class="col-lg-6">
+                            <h1 class="card-title " style="padding-top: 10px; padding-left: 30px;font-family: 'Pinyon Script', cursive;">Welcome!</h1>
+                            <p class="card-text " style="padding-top: 15px; padding-left: 30px;font-family: 'Pinyon Script', cursive;">
+                                Welcome to our Library application! This is your personal space to organize and manage your books efficiently. Whether you have a busy day or just want to keep track of your daily reading activity, our app is here to help you stay on top of things. Create, edit, and prioritize your books with ease, and enjoy a more beautiful day!</p>
+                            <a class="btn btn-dark " style="width: 150px; border-radius: 20px; margin-top: 15px; margin-left: 30px; margin-bottom: 15px;font-family: 'Pinyon Script', cursive;" href="{{ url_for('contact') }}">Contact Us</a>
+                        </div>
+
+                        <div class="col-lg-6 d-flex justify-content-center align-items-center">
+                            <div class="card p-4 glass-card inner-form-card" style="border-radius: 30px; width: 350px; border: none;">
+                                <form action="/register" method="post" id="login-form" class="form">
+                                    <div class="input-group mb-4 " style="margin-top: 10px; width: 300px;font-family: 'Pinyon Script', cursive;">
+                                        <label class="w-100">Username</label>
+                                        <input type="text" name="username" class="form-control-plaintext border-bottom border-dark" placeholder="hubble_bubble" autocomplete="off">
+                                    </div>
+                                    <div class="input-group mb-4 " style="margin-top: 0px; width: 300px;font-family: 'Pinyon Script', cursive;">
+                                        <label class="w-100">Email</label>
+                                        <input type="text" name="email" class="form-control-plaintext border-bottom border-dark" placeholder="bibi@gmail.com" autocomplete="off">
+                                    </div>
+
+                                    <div class="mb-2 " style="margin-top: 0px; width: 300px;font-family: 'Pinyon Script', cursive;">
+                                        <label class="w-100">Password</label>
+                                        <input type="password" name="password" class="form-control-plaintext border-bottom border-dark" placeholder="hi123" autocomplete="off">
+                                    </div>
+
+                                    <button class="btn btn-dark " style="width: 300px; border-radius: 20px; margin-top: 25px;font-family: 'Pinyon Script', cursive;">Sign Up</button>
+                                </form>
+                                
+                                <div class="container" style="padding-top: 20px; text-align: center;">
+                                    <a href="https://www.instagram.com/books_ofyourdreams/" target="_blank" rel="noopener noreferrer" style="color: black;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                                            <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
+                                        </svg>
+                                    </a>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16" style="margin-left: 20px;">
+                                        <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
+                                    </svg>
+                                    <a href="https://x.com/booksdream123" target="_blank" rel="noopener noreferrer" style="color: black;"></a>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter-x" viewBox="0 0 16 16" style="margin-left: 20px;">
+                                            <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-                                
-        </div>
-        </div>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <ul>
-                    {% for category, message in messages %}
-                        <p class="{{ category }} error">{{ message }}</p>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
-    </div>
-    {% block content %}{% endblock %}
-    <footer class="py-4 mt-6 text-center fixed-bottom" style="background-color: #eacaac;">
-            <a class="navbar-brand font-monospace"> Want to know more about us?</a><a class="btn font-monospace" href="{{ url_for('contact') }}">Click here!</a>
-    </footer>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="list-unstyled p-0">
+                        {% for category, message in messages %}
+                            <p class="{{ category }} error mx-auto font-monospace">{{ message }}</p>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+
+        </div> 
+
+        <footer class="py-4 text-center fixed-bottom" style="background-color: #eacaac; width: 100%;" >
+            <a class="navbar-brand font-monospace"> Want to know more about us?</a>
+            <a class="btn font-monospace" href="{{ url_for('contact') }}">Click here!</a>
+        </footer>
+
+        {% block content %}{% endblock %}
     </body>
-    
 </html>

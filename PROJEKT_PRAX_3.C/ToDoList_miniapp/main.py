@@ -56,7 +56,7 @@ def contact():
         msg = EmailMessage()
         msg['Subject'] = f"Nová správa od: {meno}"
         msg['From'] = EMAIL_ADRESA
-        msg['To'] = EMAIL_ADRESA  # Správa príde tebe
+        msg['To'] = EMAIL_ADRESA  # Správa príde mne
         msg['Reply-To'] = uzivatel_email
         msg.set_content(f"Meno: {meno}\nE-mail: {uzivatel_email}\n\nSpráva:\n{sprava}")
 
@@ -280,30 +280,32 @@ def description(kniha_id):
 
 @app.route('/profile/<int:user_id>', methods=['GET', 'POST'])
 def profile(user_id):
-    username = None
-    photo = None
-    my_book = []
-    if 'logged_in' in session:
-        if user_id:
+    if 'logged_in' not in session:
+        flash("Please log in first", "error")
+        return redirect(url_for('login'))
+        
+    user = User.query.get(user_id)
+    if not user:
+        flash("User not found", "error")
+        return redirect(url_for('base'))
+        
+    # zmena fotky
+    if request.method == 'POST':
+        novy_avatar = request.form.get('vybrany_avatar')
+        if novy_avatar:
+            user.photo = novy_avatar
+            db.session.commit()
             
-            user = User.query.get(user_id)
-            
-            if user: 
-                username = user.username
-                photo = user.photo
-                my_book = SavedBook.query.filter_by(user_id=user_id).all()
-                if request.method == 'POST':
-                    novy_avatar = request.form.get('vybrany_avatar')
-                    if novy_avatar:
-                        user.photo = novy_avatar
-                        db.session.commit()
-                        return redirect(url_for('profile', user_id=user_id))
-                    else:
-                        return redirect(url_for('profile', user_id=user_id))
-   
+        
+        return redirect(url_for('profile', user_id=user_id))
 
-                    
-    return render_template('profile.html', username = username, photo=photo, my_book = my_book)
+    #vykreslenie profilu
+    username = user.username
+    photo = user.photo
+    my_book = SavedBook.query.filter_by(user_id=user_id).all()
+    
+    
+    return render_template('profile.html', username=username, photo=photo, my_book=my_book, user_id=user_id)
 
 @app.route('/delete/<int:book_id>', methods=['GET', 'POST'])
 def delete(book_id):

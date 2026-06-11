@@ -1,89 +1,114 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-            .glass-card {
-                /* rgba(255, 255, 255, 0.4) je polopriehľadná biela */
-                background-color: rgba(255, 255, 255, 0.4) !important; 
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-            }
+        body {
+            background-image: url('{{ url_for('static', filename='img/generated_image.jpg') }}');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            padding-bottom: 120px; 
+            margin: 0;
+        }
 
-            /* Fixácia pozadia, aby sa pri skrolovaní nehýbalo */
-            body {
-                background-attachment: fixed;
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
-            }
-            
-            /* Zabezpečíme, aby navbar mal svoju pevnú farbu a nebol ovplyvnený */
-            .navbar {
-                backdrop-filter: none !important;
-                -webkit-backdrop-filter: none !important;
-            }
+        .navbar {
+            background-color: #eacaac !important;
+            padding: 10px 20px;
+        }
 
-            .flash { padding: 10px; margin: 10px 0; border-radius: 5px; }
-            .success { background-color: #d4edda; color: #155724; width: 350px; border-radius: 10px; text-align: center; margin: 20px auto; }
-            .error { background-color: #f8d7da; color: #721c24; width: 350px; border-radius: 10px; text-align: center; margin: 20px auto; }
+        .always-visible-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            min-height: 80px;
+            background-color: #eacaac !important;
+            display: flex;
+            flex-wrap: wrap; 
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+            z-index: 1000;
+        }
+
+        @media (min-width: 576px) {
+            .always-visible-footer { flex-direction: row; }
+        }
     </style>
+</head>
 
-  </head>
-  <body style="background-image: url('{{ url_for('static', filename='img/generated_image.jpg') }}'); background-attachment: fixed; background-size: cover;background-position: center;">
-        <nav class="navbar bg-body-tertiary fixed-top" style="background-color: #eacaac !important;">
-            <div class="container-fluid">
-                <a href="{{ url_for('base') }}">
-                    <img src="{{ url_for('static', filename='img/stiahnuť.png') }}" alt="Ikona knihy" style="width: 50px;">
-                </a>
-                <h1 style="font-family: 'Brush Script MT', cursive; color: #c78547;">Books of your dreams</h1> 
-                <a class="btn btn-dark" href="{{ url_for('base') }}" role="button">Back</a>
-            </div>
-        </nav>
-        {% if podla_knihy=="bestsellers" %}
-            <h2 style="margin-top: 7rem; font-family: 'Pinyon Script', cursive;" class="text-center">Bestsellers for you to try!</h2> 
-        {%else%}
-            <h2 style="margin-top: 7rem; font-family: 'Pinyon Script', cursive;" class="text-center">Recommend by book: {{podla_knihy}}</h2>
-        {%endif%}
+<body>
+    <nav class="navbar fixed-top" style="height: 4rem">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <a >
+                <img src="{{ url_for('static', filename='img/stiahnuť.png') }}" alt="Ikona knihy" style="width: 50px;">
+            </a>
+            <a class="btn btn-dark" href="{{ url_for('base') }}" role="button" style="font-family: 'Pinyon Script', cursive;">Back</a>
+        </div>
+    </nav>
+
+    {% if podla_knihy=="bestsellers" %}
+        <h2 style="font-family: 'Pinyon Script', cursive; color: #c78547;" class="fs-1 fw-bold mb-1">Bestsellers for you to try!</h2> 
+    {% else %}
         <div class="container" style="margin-top: 6rem; font-family: 'Pinyon Script', cursive;">
-            <div class="row row-cols-1 row-cols-md-2 g-3" >
-                {% for kniha in knihy %}
-                    <div class="col d-flex justify-content-center">
-                        <div class="card h-100 bg-transparent" style="max-width: 400px; border: none;">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    {% if kniha.volumeInfo.imageLinks and kniha.volumeInfo.imageLinks.thumbnail %}
-                                        <img src="{{ kniha.volumeInfo.imageLinks.thumbnail }}" class="img-fluid rounded-start shadow-sm" alt="Cover">
-                                    {% else %}
-                                        <img src="https://via.placeholder.com/150x220?text=Bez+obrázka" class="img-fluid rounded-start" alt="No image">
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body py-0">
-                                        <h5 class="card-title ">
-                                            <a href="{{ url_for('description', kniha_id=kniha.id) }}" class="text-decoration-none" style="color: #333;">
-                                                {{ kniha.volumeInfo.title if kniha.volumeInfo.title else 'Názov nie je k dispozícii' }}
-                                            </a>
-                                        </h5>
-                                        <h6 class="card-title">
-                                            {{ kniha.volumeInfo.authors | join(', ') if kniha.volumeInfo.authors else 'Neznámy autor' }}
-                                        </h6>
-                                        <p class="card-text " style="font-size: 0.9rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;">
-                                            {{ kniha.volumeInfo.description if kniha.volumeInfo.description else 'Popis nie je k dispozícii.' }}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> 
-
-                    </div>
-                {% endfor %}
-
+            <div class="text-center mb-5">
+                <hr class="w-25 mx-auto" style="border-top: 2px solid #6c584c; opacity: 0.3;">
+                <h2 class="display-3 my-3" style="color: #6c584c; font-weight: 500;">Recommend by book:</h2>
+                <p class="font-monospace text-muted small text-uppercase tracking-wider" style="font-family: var(--bs-font-monospace) !important; letter-spacing: 2px;">
+                    {{podla_knihy}}
+                </p>
+                <hr class="w-25 mx-auto" style="border-top: 2px solid #6c584c; opacity: 0.3;">
             </div>
         </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-  </body>
+    {% endif %}
+
+    <div class="container" style="margin-top: 3rem; font-family: 'Pinyon Script', cursive;">
+        <div class="row row-cols-1 row-cols-md-2 g-3">
+            {% for kniha in knihy %}
+                <div class="col d-flex justify-content-center">
+                    <div class="card h-100 bg-transparent" style="max-width: 400px; border: none;">
+                        <div class="row g-0">
+                            <div class="col-4 col-md-4">
+                                {% if kniha.volumeInfo.imageLinks and kniha.volumeInfo.imageLinks.thumbnail %}
+                                    <img src="{{ kniha.volumeInfo.imageLinks.thumbnail }}" class="img-fluid rounded-start shadow-sm" alt="Cover">
+                                {% else %}
+                                    <img src="https://via.placeholder.com/150x220?text=Bez+obrázka" class="img-fluid rounded-start" alt="No image">
+                                {% endif %}
+                            </div>
+                            <div class="col-8 col-md-8">
+                                <div class="card-body py-0">
+                                    <h5 class="card-title">
+                                        <a href="{{ url_for('description', kniha_id=kniha.id) }}" class="text-decoration-none" style="color: #333;">
+                                            {{ kniha.volumeInfo.title if kniha.volumeInfo.title else 'Title not available' }}
+                                        </a>
+                                    </h5>
+                                    <h6 class="card-title">
+                                        {{ kniha.volumeInfo.authors | join(', ') if kniha.volumeInfo.authors else 'Unknown Author' }}
+                                    </h6>
+                                    <p class="card-text" style="font-size: 0.9rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical;">
+                                        {{ kniha.volumeInfo.description if kniha.volumeInfo.description else 'Description not available' }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <footer class="py-4 text-center fixed-bottom" style="background-color: #eacaac; width: 100%;" >
+        <a class="navbar-brand font-monospace"> Want to know more about us?</a>
+        <a class="btn font-monospace" href="{{ url_for('contact') }}">Click here!</a>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
